@@ -151,6 +151,15 @@ type Project struct {
 	Status    Projectstatus
 }
 
+type RefreshToken struct {
+	ID        uuid.UUID
+	Userid    uuid.UUID
+	Token     string
+	ExpiresAt time.Time
+	CreatedAt time.Time
+	Revoked   bool
+}
+
 type Task struct {
 	ID          uuid.UUID
 	CreatedAt   time.Time

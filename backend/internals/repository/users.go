@@ -36,5 +36,15 @@ func (ur *UserRepository) CreateUser(c context.Context, userData models.User) (m
 	}
 
 	return models.DatabaseUserToUser(newUser), nil
+}
 
+func (ur *UserRepository) GetUserByEmail(c context.Context, email string) (models.User, error) {
+
+	user, err := ur.queries.GetUserByEmail(c, email)
+
+	if err != nil {
+		return models.User{}, err
+	}
+
+	return models.DatabaseUserToUser(user), nil
 }
