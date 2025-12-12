@@ -9,7 +9,7 @@ export default function Navbar() {
             <div className="conatiner mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
                 <a className="flex items-center space-x-2">
                     <Trello className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600"/>
-                    <span className="text-xl sm:text-2xl font-bold text-gray-900">Primus Tasks</span>
+                    <span className="text-xl sm:text-2xl font-bold text-gray-900">Task Manager</span>
                 </a>
             </div>
         </header>
