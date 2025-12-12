@@ -27,5 +27,6 @@ func (h *Handler) Register(r *fiber.App) {
 
 	teamsRoutes := v1.Group("/teams", jwtMiddleware)
 	teamsRoutes.Post("/", h.CreateTeam)
+	teamsRoutes.Get("/by-owner", h.GetTeamByOwner)
 
 }

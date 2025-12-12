@@ -71,3 +71,36 @@ func (h *Handler) CreateTeam(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusCreated).JSON(team)
 }
+
+func (h *Handler) GetTeamByOwner(c *fiber.Ctx) error {
+
+	userId := c.Locals("userId")
+	userRole := c.Locals("userRole")
+
+	if userRole != "Admin" {
+		return c.Status(fiber.StatusUnauthorized).JSON(utils.ErrorString("unauthorized"))
+	}
+
+	userUUID, err := uuid.Parse(userId.(string))
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(utils.NewError(err))
+	}
+
+	exists, team, err := h.teamRepository.GetTeamByOwner(c.Context(), userUUID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(utils.NewError(err))
+	}
+
+	if !exists {
+		return c.Status(200).JSON(fiber.Map{
+			"exists": exists,
+			"team":   nil,
+		})
+	}
+
+	return c.Status(200).JSON(fiber.Map{
+		"exists": exists,
+		"team":   team,
+	})
+}
