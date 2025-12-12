@@ -5,6 +5,9 @@ import (
 	"log"
 	"os"
 
+	"github.com/TobiasRV/challenge-fs-senior/internals/db"
+	"github.com/TobiasRV/challenge-fs-senior/internals/handlers"
+	"github.com/TobiasRV/challenge-fs-senior/internals/repository"
 	"github.com/TobiasRV/challenge-fs-senior/internals/router"
 	"github.com/joho/godotenv"
 )
@@ -19,6 +22,14 @@ func main() {
 	}
 
 	r := router.New()
+
+	queries, dbConn := db.New()
+
+	ur := repository.NewUserRepository(queries, dbConn)
+
+	h := handlers.NewHandler(ur)
+
+	h.Register(r)
 
 	err := r.Listen(fmt.Sprintf(":%v", portString))
 
