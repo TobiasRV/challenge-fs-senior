@@ -1,0 +1,1 @@
+export const getEmailExistsRoute = () => '/users/exists-by-email'

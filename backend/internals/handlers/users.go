@@ -15,10 +15,10 @@ import (
 func (h *Handler) CreateUserAdmin(c *fiber.Ctx) error {
 
 	payload := struct {
-		Username string           `json:"username" validate:"required"`
-		Password string           `json:"password" validate:"required"`
-		Email    string           `json:"email" validate:"required,email"`
-		Role     models.Userroles `json:"role" validate:"required,oneof=Admin Manager Member"`
+		Username string `json:"username" validate:"required"`
+		Password string `json:"password" validate:"required"`
+		Email    string `json:"email" validate:"required,email"`
+		// Role     models.Userroles `json:"role" validate:"required,oneof=Admin Manager Member"`
 	}{}
 
 	if err := c.BodyParser(&payload); err != nil {
@@ -42,7 +42,7 @@ func (h *Handler) CreateUserAdmin(c *fiber.Ctx) error {
 		CreatedAt: time.Now().UTC(),
 		UpdatedAt: time.Now().UTC(),
 		Email:     payload.Email,
-		Role:      payload.Role,
+		Role:      models.UserrolesAdmin,
 	})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.NewError(err))
