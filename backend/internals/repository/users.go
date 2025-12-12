@@ -6,6 +6,7 @@ import (
 
 	"github.com/TobiasRV/challenge-fs-senior/internals/models"
 	"github.com/TobiasRV/challenge-fs-senior/internals/sqlc/database"
+	"github.com/google/uuid"
 )
 
 type UserRepository struct {
@@ -47,4 +48,16 @@ func (ur *UserRepository) GetUserByEmail(c context.Context, email string) (model
 	}
 
 	return models.DatabaseUserToUser(user), nil
+}
+
+func (ur *UserRepository) GetUserById(c context.Context, id uuid.UUID) (models.User, error) {
+
+	user, err := ur.queries.GetUserById(c, id)
+
+	if err != nil {
+		return models.User{}, err
+	}
+
+	return models.DatabaseUserToUser(user), nil
+
 }

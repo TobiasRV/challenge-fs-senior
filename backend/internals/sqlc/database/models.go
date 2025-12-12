@@ -176,7 +176,7 @@ type Team struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	Name      string
-	OwnerID   uuid.NullUUID
+	OwnerID   uuid.UUID
 }
 
 type User struct {
