@@ -2,6 +2,8 @@ import { HttpStatusCode } from "axios";
 import { create } from "zustand";
 import { ICreateTeam, ITeam } from "./teams.interfaces";
 import { createTeam, getTeamByOwner } from "@/src/services/apiServices/teams/services";
+import { setLsItem } from "@/src/utils/localStorage";
+import { localStorageKeys } from "@/src/utils/consts";
 
 interface TeamsStore {
   loading: boolean;
@@ -56,6 +58,8 @@ export const useTeamStore = create<TeamsStore>((set, get) => ({
             team: response.team
         }
       });
+
+      setLsItem(localStorageKeys.TEAM_ID, response.team.id)
 
       return;
     } catch (error) {

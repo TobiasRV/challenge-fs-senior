@@ -13,7 +13,8 @@ CREATE TABLE users (
     username TEXT NOT NULL,
     password TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    role UserRoles NOT NULL
+    role UserRoles NOT NULL,
+    team_id UUID
 );
 
 -- +goose Down

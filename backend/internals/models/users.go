@@ -23,9 +23,15 @@ type User struct {
 	Password  string    `json:"-"`
 	Email     string    `json:"email"`
 	Role      Userroles `json:"role"`
+	TeamId    uuid.UUID `json:"team_id"`
 }
 
 func DatabaseUserToUser(dbUser database.User) User {
+	uuid := uuid.UUID{}
+	if dbUser.TeamID.Valid {
+		uuid = dbUser.TeamID.UUID
+	}
+
 	return User{
 		ID:        dbUser.ID,
 		CreatedAt: dbUser.CreatedAt,
@@ -34,6 +40,7 @@ func DatabaseUserToUser(dbUser database.User) User {
 		Password:  dbUser.Password,
 		Email:     dbUser.Email,
 		Role:      Userroles(dbUser.Role),
+		TeamId:    uuid,
 	}
 }
 

@@ -11,8 +11,10 @@ CREATE TABLE projects (
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     name TEXT NOT NULL,
-    manager_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    team_id UUID NOT NULL REFERENCES teams(id) ON DELETE CASCADE,
+    manager_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     status ProjectStatus NOT NULL DEFAULT 'OnHold'
+    
 );
 
 -- +goose Down

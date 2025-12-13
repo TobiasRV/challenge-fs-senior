@@ -35,20 +35,21 @@ export default function SignInPage() {
 
   const [alertTimeout, setAlertTimeout] = useState<NodeJS.Timeout>();
 
-  const { registerAdmin, error, authStatusCode, clearRequestState } = useAuthStore(
-    useShallow((state) => ({
-      registerAdmin: state.registerAdmin,
-      error: state.error,
-      authStatusCode: state.statusCode,
-      clearRequestState: state.clearRequestState
-    })),
-  );
+  const { registerAdmin, error, authStatusCode, clearRequestState } =
+    useAuthStore(
+      useShallow((state) => ({
+        registerAdmin: state.registerAdmin,
+        error: state.error,
+        authStatusCode: state.statusCode,
+        clearRequestState: state.clearRequestState,
+      })),
+    );
 
-    const { emailAlreadyExists, userLoading } = useUserStore(
+  const { emailAlreadyExists, userLoading } = useUserStore(
     useShallow((state) => ({
       emailAlreadyExists: state.emailAlreadyExists,
       userLoading: state.loading,
-      userError: state.error
+      userError: state.error,
     })),
   );
 
@@ -68,10 +69,7 @@ export default function SignInPage() {
   useEffect(() => {
     if (error) {
       clearTimeout(alertTimeout);
-      const timeoutAux = setTimeout(
-        () => clearRequestState(),
-        7000,
-      );
+      const timeoutAux = setTimeout(() => clearRequestState(), 7000);
       setAlertTimeout(timeoutAux);
     }
   }, [error, authStatusCode]);
@@ -89,7 +87,7 @@ export default function SignInPage() {
               <Input
                 className="mt-2"
                 {...register("username", {
-                  required: { value: true, message: "El usuario es requerido"},
+                  required: { value: true, message: "El usuario es requerido" },
                 })}
               />
               {errors.username ? (
@@ -104,7 +102,10 @@ export default function SignInPage() {
                 type="password"
                 className="mt-2"
                 {...register("password", {
-                  required: { value: true, message: "La contraseña es requerida"},
+                  required: {
+                    value: true,
+                    message: "La contraseña es requerida",
+                  },
                 })}
               />
               {errors.password ? (
@@ -132,18 +133,18 @@ export default function SignInPage() {
                       return isValidEmail;
                     },
                     emailAlreadyExists: async (email) => {
-                        const emailExists = await emailAlreadyExists(email);
-                        if (emailExists) {
-                            setError("email", {
-                            message: "Ya existe una cuenta con ese email",
-                            type: "email-already-exists",
-                            });
+                      const emailExists = await emailAlreadyExists(email);
+                      if (emailExists) {
+                        setError("email", {
+                          message: "Ya existe una cuenta con ese email",
+                          type: "email-already-exists",
+                        });
 
-                            return "Ya existe una cuenta con ese email";
-                        }
+                        return "Ya existe una cuenta con ese email";
+                      }
 
-                        return true;
-                    }
+                      return true;
+                    },
                   },
                 })}
               />
@@ -154,7 +155,7 @@ export default function SignInPage() {
               ) : null}
             </div>
 
-            {(error && authStatusCode) && (
+            {error && authStatusCode && (
               <Alert className="mt-5 w-100" variant="error">
                 <AlertTitle className="font-normal">
                   {mapErrorMessage[authStatusCode]}
@@ -163,7 +164,11 @@ export default function SignInPage() {
             )}
 
             <div className="mt-6">
-              <Button disabled={userLoading || Object.keys(errors).length !== 0}>Registrarse</Button>
+              <Button
+                disabled={userLoading || Object.keys(errors).length !== 0}
+              >
+                Registrarse
+              </Button>
             </div>
           </form>
         </div>

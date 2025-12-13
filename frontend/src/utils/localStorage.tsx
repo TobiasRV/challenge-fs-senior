@@ -1,12 +1,39 @@
+const hasLocalStorage = () => typeof window !== "undefined" && typeof window.localStorage !== "undefined" && typeof window.localStorage.getItem === "function";
+const isDev = process.env.NODE_ENV !== "production";
+
 export const setLsItem = (key: string, value: any) => {
-    localStorage.setItem(key, JSON.stringify(value))
+    if (!hasLocalStorage()) {
+        return;
+    }
+    try {
+        window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (err) {
+    }
 }
 
 export const getLsItem = (key: string): any => {
-    const value = localStorage.getItem(key);
-    return value ? JSON.parse(value) : null;
+    if (!hasLocalStorage()) {
+        return null;
+    }
+    try {
+        const value = window.localStorage.getItem(key);
+        const parsed = value ? JSON.parse(value) : null;
+        return parsed;
+    } catch (err) {
+        return null;
+    }
 }
 
-export const removeLsItem = (key: string) => localStorage.removeItem(key);
+export const removeLsItem = (key: string) => {
+    if (!hasLocalStorage()) {
+        return;
+    }
+    window.localStorage.removeItem(key);
+};
 
-export const clearLs = () => localStorage.clear()
+export const clearLs = () => {
+    if (!hasLocalStorage()) {
+        return;
+    }
+    window.localStorage.clear();
+}

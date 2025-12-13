@@ -15,7 +15,7 @@ func (h *Handler) CreateTeam(c *fiber.Ctx) error {
 	userId := c.Locals("userId")
 	userRole := c.Locals("userRole")
 	if userRole != "Admin" {
-		return c.Status(fiber.StatusUnauthorized).JSON(utils.ErrorString("unauthorized"))
+		return c.Status(fiber.StatusForbidden).JSON(utils.ErrorString("unauthorized"))
 	}
 
 	payload := struct {
@@ -78,7 +78,7 @@ func (h *Handler) GetTeamByOwner(c *fiber.Ctx) error {
 	userRole := c.Locals("userRole")
 
 	if userRole != "Admin" {
-		return c.Status(fiber.StatusUnauthorized).JSON(utils.ErrorString("unauthorized"))
+		return c.Status(fiber.StatusForbidden).JSON(utils.ErrorString("unauthorized"))
 	}
 
 	userUUID, err := uuid.Parse(userId.(string))

@@ -11,11 +11,9 @@ export const loginService = async ( payload: ILogInForm ) => {
             email,
             password
         });
-        console.log({ response })
         return { ...response.data, statusCode: response.status}
 
     } catch (error) {
-        console.log({ error })
         return handleAxiosErrors(error);
     }
 }

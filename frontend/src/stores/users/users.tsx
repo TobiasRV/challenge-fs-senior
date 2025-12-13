@@ -1,12 +1,28 @@
-import { emailExistsService } from "@/src/services/apiServices/users/service";
+import {
+  createUsers,
+  deleteUser,
+  emailExistsService,
+  getUsers,
+  updateUsers,
+} from "@/src/services/apiServices/users/service";
 import { HttpStatusCode } from "axios";
 import { create } from "zustand";
+import { IGetUsersParams, IUpdateUsersParams, IUser } from "./users.interface";
 
 interface UserStore {
   loading: boolean;
   error: boolean;
   statusCode: number | null;
+  users: {
+    data: Array<IUser>;
+    prev: string;
+    next: string;
+  };
   emailAlreadyExists: (email: string) => Promise<boolean>;
+  getUsers: (filters: IGetUsersParams) => Promise<void>;
+  createUser: (userData: Partial<IUser>) => Promise<number>;
+  updateUser: (userData: IUpdateUsersParams) => Promise<number>;
+  deleteUser: (id: string) => Promise<number>;
   clearRequestState: () => void;
 }
 
@@ -16,6 +32,11 @@ const initialState = {
   loading: false,
   error: false,
   statusCode: null,
+  users: {
+    data: [],
+    prev: "",
+    next: "",
+  },
 };
 
 export const useUserStore = create<UserStore>((set, get) => ({
@@ -37,7 +58,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
       set({
         error: false,
         loading: false,
-        statusCode: response.status
+        statusCode: response.status,
       });
 
       return response.exists;
@@ -50,7 +71,140 @@ export const useUserStore = create<UserStore>((set, get) => ({
       return true;
     }
   },
+  getUsers: async (filters: IGetUsersParams): Promise<void> => {
+    try {
+      set({ loading: true });
+      const response = await getUsers(filters);
+      if (response.error) {
+        set({
+          error: true,
+          loading: false,
+          statusCode: response.statusCode,
+          users: {
+            data: [],
+            prev: "",
+            next: "",
+          },
+        });
+        return;
+      }
 
+      set({
+        error: false,
+        loading: false,
+        statusCode: response.statusCode,
+        users: {
+          data: response.data || [],
+          prev: response.pagination.prev_cursor,
+          next: response.pagination.next_cursor,
+        },
+      });
+
+      return;
+    } catch (error) {
+      set({
+        error: false,
+        loading: false,
+        statusCode: HttpStatusCode.InternalServerError,
+        users: {
+          data: [],
+          prev: "",
+          next: "",
+        },
+      });
+      return;
+    }
+  },
+  createUser: async (userData: Partial<IUser>): Promise<number> => {
+    try {
+      set({ loading: true });
+      const response = await createUsers(userData);
+
+      if (response.error) {
+        set({
+          error: true,
+          loading: false,
+          statusCode: response.statusCode,
+        });
+        return response.statusCode;
+      }
+
+      set({
+        error: false,
+        loading: false,
+        statusCode: response.statusCode,
+      });
+
+      return response.statusCode;
+    } catch (error) {
+      set({
+        error: false,
+        loading: false,
+        statusCode: HttpStatusCode.InternalServerError,
+      });
+      return HttpStatusCode.InternalServerError;
+    }
+  },
+  updateUser: async (userData: IUpdateUsersParams): Promise<number> => {
+    try {
+      set({ loading: true });
+      const response = await updateUsers(userData);
+
+      if (response.error) {
+        set({
+          error: true,
+          loading: false,
+          statusCode: response.statusCode,
+        });
+        return response.statusCode;
+      }
+
+      set({
+        error: false,
+        loading: false,
+        statusCode: response.statusCode,
+      });
+
+      return response.statusCode;
+    } catch (error) {
+      set({
+        error: false,
+        loading: false,
+        statusCode: HttpStatusCode.InternalServerError,
+      });
+      return HttpStatusCode.InternalServerError;
+    }
+  },
+  deleteUser: async (id: string): Promise<number> => {
+    try {
+      set({ loading: true });
+      const response = await deleteUser(id);
+
+      if (response.error) {
+        set({
+          error: true,
+          loading: false,
+          statusCode: response.statusCode,
+        });
+        return response.statusCode;
+      }
+
+      set({
+        error: false,
+        loading: false,
+        statusCode: response.statusCode,
+      });
+
+      return response.statusCode;
+    } catch (error) {
+      set({
+        error: false,
+        loading: false,
+        statusCode: HttpStatusCode.InternalServerError,
+      });
+      return HttpStatusCode.InternalServerError;
+    }
+  },
   clearRequestState: (): void => {
     set({
       error: false,

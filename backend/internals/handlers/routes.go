@@ -24,9 +24,20 @@ func (h *Handler) Register(r *fiber.App) {
 		ErrorHandler:   h.JWTErrorHandler,
 		SuccessHandler: h.JWTSuccessHandler,
 	})
+	usersRoutes.Use(jwtMiddleware)
+	usersRoutes.Get("/", h.GetUsers)
+	usersRoutes.Post("/", h.CreateUser)
+	usersRoutes.Put("/:id", h.UpdateUser)
+	usersRoutes.Delete("/:id", h.DeleteUser)
 
 	teamsRoutes := v1.Group("/teams", jwtMiddleware)
 	teamsRoutes.Post("/", h.CreateTeam)
 	teamsRoutes.Get("/by-owner", h.GetTeamByOwner)
+
+	projectRoutes := v1.Group("/projects", jwtMiddleware)
+	projectRoutes.Get("/", h.GetProjects)
+	projectRoutes.Post("/", h.CreateProject)
+	projectRoutes.Put("/:id", h.UpdateProject)
+	projectRoutes.Delete("/:id", h.DeleteProject)
 
 }

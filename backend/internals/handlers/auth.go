@@ -31,7 +31,7 @@ func (h *Handler) LogIn(c *fiber.Ctx) error {
 	existingUser, err := h.userRepository.GetUserByEmail(c.Context(), payload.Email)
 
 	if errors.Is(err, sql.ErrNoRows) {
-		return c.Status(fiber.StatusUnauthorized).JSON(utils.ErrorString("Invalid username or password"))
+		return c.Status(fiber.StatusConflict).JSON(utils.ErrorString("Invalid username or password"))
 	}
 
 	if err != nil {
@@ -39,7 +39,7 @@ func (h *Handler) LogIn(c *fiber.Ctx) error {
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(existingUser.Password), []byte(payload.Password)); err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(utils.ErrorString("Invalid credentials"))
+		return c.Status(fiber.StatusConflict).JSON(utils.ErrorString("Invalid credentials"))
 	}
 
 	token, err := utils.GenerateJWTToken(existingUser)

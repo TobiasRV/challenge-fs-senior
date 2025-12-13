@@ -18,7 +18,7 @@ const server = axios.create({
 
 
 const redirectToLogin = () => {
-  clearLs()
+  // clearLs()
   redirect("/", RedirectType.replace)
 };
 
@@ -26,7 +26,6 @@ const refreshToken = async () => {
   const refreshToken = getLsItem(localStorageKeys.REFRESH_TOKEN);
   if (refreshToken) {
     const response = (await refreshTokenService({ refreshToken })) as any;
-    console.log({ statusCode: response.statusCode})
     if (
       response.statusCode === HttpStatusCode.BadRequest ||
       response.statusCode === HttpStatusCode.InternalServerError ||

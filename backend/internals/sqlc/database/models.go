@@ -147,7 +147,8 @@ type Project struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	Name      string
-	ManagerID uuid.NullUUID
+	TeamID    uuid.UUID
+	ManagerID uuid.UUID
 	Status    Projectstatus
 }
 
@@ -165,6 +166,7 @@ type Task struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	Name        string
+	ProjectID   uuid.NullUUID
 	UserID      uuid.NullUUID
 	Status      Taskstatus
 	Title       string
@@ -187,4 +189,5 @@ type User struct {
 	Password  string
 	Email     string
 	Role      Userroles
+	TeamID    uuid.NullUUID
 }

@@ -3,3 +3,9 @@ export enum UserRolesEnum {
     MANAGER = "Manager",
     MEMBER = "Member"
 }
+
+export enum ProjectStatusEnum {
+    ON_HOLD = "OnHold",
+    IN_PROGRESS = "InProgress",
+    COMPLETED = "Completed"
+}

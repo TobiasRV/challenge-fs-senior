@@ -34,12 +34,14 @@ export default function LoginPage() {
 
   const [alertTimeout, setAlertTimeout] = useState<NodeJS.Timeout>();
 
-  const {logIn} = useAuthStore(useShallow((state) => ({
-    logIn: state.logIn
+  const {logIn, clearState} = useAuthStore(useShallow((state) => ({
+    logIn: state.logIn,
+    clearState: state.clearState
   })))
 
   useEffect(() => {
     clearLs()
+    clearState()
   }, [])
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export default function LoginPage() {
       case HttpStatusCode.Ok:
         router.push("/")
         break;
-      case HttpStatusCode.Unauthorized:
+      case HttpStatusCode.Conflict:
         setAlert({
           type: "error",
           message: "Usuario o contraseña invalidos"

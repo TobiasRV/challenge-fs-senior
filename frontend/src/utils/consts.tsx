@@ -3,4 +3,5 @@ export const localStorageKeys = {
   IS_LOGGED_IN: "isLoggedIn",
   TOKEN: "token",
   REFRESH_TOKEN: "refreshToken",
+  TEAM_ID: "teamId"
 };

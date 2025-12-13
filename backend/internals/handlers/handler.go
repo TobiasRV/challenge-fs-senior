@@ -7,12 +7,14 @@ type Handler struct {
 	userRepository         interfaces.IUserRepository
 	refreshTokenRepository interfaces.IRefreshTokenRepository
 	teamRepository         interfaces.ITeamRepository
+	projectRepository      interfaces.IProjectRepository
 }
 
 func NewHandler(
 	ur interfaces.IUserRepository,
 	rtr interfaces.IRefreshTokenRepository,
 	tr interfaces.ITeamRepository,
+	pr interfaces.IProjectRepository,
 ) *Handler {
 	v := NewValidator()
 	return &Handler{
@@ -20,5 +22,6 @@ func NewHandler(
 		userRepository:         ur,
 		refreshTokenRepository: rtr,
 		teamRepository:         tr,
+		projectRepository:      pr,
 	}
 }
