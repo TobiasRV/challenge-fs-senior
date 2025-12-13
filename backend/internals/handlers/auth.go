@@ -52,7 +52,7 @@ func (h *Handler) LogIn(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.NewError(err))
 	}
 
-	h.refreshTokenRepository.CreateRefreshToken(c.Context(), models.RefreshToken{
+	err = h.refreshTokenRepository.CreateRefreshToken(c.Context(), models.RefreshToken{
 		ID:        uuid.New(),
 		CreatedAt: time.Now().UTC(),
 		ExpiresAt: expiresAt,
@@ -60,6 +60,9 @@ func (h *Handler) LogIn(c *fiber.Ctx) error {
 		Token:     refreshToken,
 		Revoked:   false,
 	})
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(utils.ErrorString("Error saving refresh token"))
+	}
 
 	utils.GenerateCookie(c, token)
 
@@ -95,13 +98,20 @@ func (h *Handler) RefreshToken(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.NewError(err))
 	}
 
+	if existingToken.Revoked {
+		return c.Status(fiber.StatusUnauthorized).JSON(utils.ErrorString("refresh token has been revoked"))
+	}
+
+	if time.Now().UTC().After(existingToken.ExpiresAt) {
+		return c.Status(fiber.StatusUnauthorized).JSON(utils.ErrorString("refresh token has expired"))
+	}
+
 	newAccessToken, err := utils.GenerateJWTToken(existingToken.UserData)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.NewError(err))
 	}
 
-	return c.Status(200).JSON(fiber.Map{
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"accessToken": newAccessToken,
 	})
-
 }
