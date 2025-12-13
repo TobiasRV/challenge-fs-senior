@@ -1,4 +1,8 @@
-import { loginService, signInService } from "@/src/services/apiServices/auth/service";
+import {
+  loginService,
+  logoutService,
+  signInService,
+} from "@/src/services/apiServices/auth/service";
 import { localStorageKeys } from "@/src/utils/consts";
 import { getLsItem, setLsItem, removeLsItem } from "@/src/utils/localStorage";
 import { HttpStatusCode } from "axios";
@@ -13,6 +17,7 @@ interface AuthStore {
   error: boolean;
   statusCode: number | null;
   logIn: (payload: ILogInForm) => Promise<number>;
+  logOut: () => Promise<void>;
   registerAdmin: (payload: ISignInForm) => Promise<number>;
   clearRequestState: () => void;
   clearState: () => void;
@@ -32,8 +37,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     (typeof window !== "undefined" && getLsItem(localStorageKeys.USER)) ||
     initialState.user,
   isLoggedIn:
-    (getLsItem(localStorageKeys.IS_LOGGED_IN)) ||
-    initialState.isLoggedIn,
+    getLsItem(localStorageKeys.IS_LOGGED_IN) || initialState.isLoggedIn,
   logIn: async (payload: ILogInForm): Promise<number> => {
     try {
       set({ loading: true });
@@ -52,7 +56,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           loading: false,
           statusCode: response.statusCode,
           isLoggedIn: true,
-          user: response.user
+          user: response.user,
         });
         setLsItem(localStorageKeys.IS_LOGGED_IN, true);
         setLsItem(localStorageKeys.USER, response.user);
@@ -60,19 +64,31 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       return response.statusCode;
     } catch (error) {
       set({
-          error: true,
-          loading: false,
-          statusCode: HttpStatusCode.InternalServerError
+        error: true,
+        loading: false,
+        statusCode: HttpStatusCode.InternalServerError,
       });
 
       return HttpStatusCode.InternalServerError;
     }
   },
+  logOut: async (): Promise<void> => {
+    try {
+      await logoutService();
+    } catch (error) {
+    } finally {
+      set({
+        ...initialState,
+      });
+      removeLsItem(localStorageKeys.USER);
+      removeLsItem(localStorageKeys.IS_LOGGED_IN);
+    }
+  },
   registerAdmin: async (payload: ISignInForm): Promise<number> => {
     try {
-        set({ loading: true})
-        const response = await signInService(payload);
-        if (response.error) {
+      set({ loading: true });
+      const response = await signInService(payload);
+      if (response.error) {
         set({
           error: true,
           loading: false,
@@ -84,7 +100,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           loading: false,
           statusCode: response.statusCode,
           isLoggedIn: true,
-          user: response.user
+          user: response.user,
         });
         setLsItem(localStorageKeys.IS_LOGGED_IN, true);
         setLsItem(localStorageKeys.USER, response.user);
@@ -94,8 +110,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       set({
         error: true,
         loading: false,
-        statusCode: HttpStatusCode.InternalServerError
-      })
+        statusCode: HttpStatusCode.InternalServerError,
+      });
       return HttpStatusCode.InternalServerError;
     }
   },
@@ -103,14 +119,14 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     set({
       error: false,
       statusCode: null,
-      loading: false
-    })
+      loading: false,
+    });
   },
   clearState: (): void => {
     set({
-      ...initialState
-    })
+      ...initialState,
+    });
     removeLsItem(localStorageKeys.USER);
     removeLsItem(localStorageKeys.IS_LOGGED_IN);
-  }
+  },
 }));

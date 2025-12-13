@@ -7,7 +7,7 @@ import server from "../..";
 import handleAxiosErrors from "../../axios.helper";
 import { createProjectsRoute, deleteProjectsRoute, getProjectsRoute, updateProjectsRoute } from "./routes";
 
-export const getProjects = async (params: IGetProjectParams) => {
+export const getProjectsService = async (params: IGetProjectParams) => {
   try {
     const response = await server.get(getProjectsRoute(), {
       params,
@@ -18,7 +18,7 @@ export const getProjects = async (params: IGetProjectParams) => {
   }
 };
 
-export const createProjects = async (body: ICreateProjectBody) => {
+export const createProjectsService = async (body: ICreateProjectBody) => {
   try {
     const response = await server.post(createProjectsRoute(), body);
     return { ...response.data, statusCode: response.status };
@@ -27,7 +27,7 @@ export const createProjects = async (body: ICreateProjectBody) => {
   }
 };
 
-export const updateProject = async (params: IUpdateProjectParams) => {
+export const updateProjectService = async (params: IUpdateProjectParams) => {
     try {
     const response = await server.put(updateProjectsRoute(params.id), {
         name: params.name,
@@ -39,7 +39,7 @@ export const updateProject = async (params: IUpdateProjectParams) => {
   }
 };
 
-export const deleteProject = async (id: string) => {
+export const deleteProjectService = async (id: string) => {
     try {
     const response = await server.delete(deleteProjectsRoute(id));
     return { ...response.data, statusCode: response.status };

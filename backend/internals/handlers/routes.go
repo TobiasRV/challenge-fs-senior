@@ -46,4 +46,6 @@ func (h *Handler) Register(r *fiber.App) {
 	taskRoutes.Put("/:id", h.UpdateTask)
 	taskRoutes.Delete("/:id", h.DeleteTask)
 
+	authRoutes.Use(jwtMiddleware)
+	authRoutes.Delete("/logout", h.LogOut)
 }

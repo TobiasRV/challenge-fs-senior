@@ -16,7 +16,7 @@ export const emailExistsService = async (email: string) => {
     }
 }
 
-export const getUsers = async (params: IGetUsersParams) => {
+export const getUsersService = async (params: IGetUsersParams) => {
     try {
         const response = await server.get(getUsersRoute(), {
             params
@@ -27,7 +27,7 @@ export const getUsers = async (params: IGetUsersParams) => {
     }
 }
 
-export const createUsers = async (body: Partial<IUser>) => {
+export const createUsersService = async (body: Partial<IUser>) => {
     try {
         const response = await server.post(createUsersRoute(), body);
         return {...response.data, statusCode: response.status}
@@ -36,7 +36,7 @@ export const createUsers = async (body: Partial<IUser>) => {
     }
 }
 
-export const updateUsers = async (body: IUpdateUsersParams) => {
+export const updateUsersService = async (body: IUpdateUsersParams) => {
     try {
         const response = await server.put(updateUsersRoute(body.id), {
             username: body.username,
@@ -48,7 +48,7 @@ export const updateUsers = async (body: IUpdateUsersParams) => {
     }
 }
 
-export const deleteUser = async (id: string) => {
+export const deleteUserService = async (id: string) => {
     try {
         const response = await server.delete(deleteUsersRoute(id));
         return {...response.data, statusCode: response.status}

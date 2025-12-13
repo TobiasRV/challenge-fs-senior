@@ -1,7 +1,7 @@
 import { HttpStatusCode } from "axios";
 import { create } from "zustand";
 import { ICreateTaskBody, IGetTasksParams, ITask, IUpdateTaskParams } from "./tasks.interface";
-import { createTask, deleteTask, getTasks, updateTask } from "@/src/services/apiServices/tasks/service";
+import { createTaskService, deleteTaskService, getTasksService, updateTaskService } from "@/src/services/apiServices/tasks/service";
 
 interface TasksStore {
   loading: boolean;
@@ -38,7 +38,7 @@ export const useTaskStore = create<TasksStore>((set, get) => ({
   getTasks: async (filters: IGetTasksParams): Promise<void> => {
     try {
       set({ loading: true });
-      const response = await getTasks(filters);
+      const response = await getTasksService(filters);
       if (response.error) {
         set({
           error: true,
@@ -82,7 +82,7 @@ export const useTaskStore = create<TasksStore>((set, get) => ({
   createTask: async (body: ICreateTaskBody): Promise<number> => {
     try {
       set({ loading: true });
-      const response = await createTask(body);
+      const response = await createTaskService(body);
       if (response.error) {
         set({
           error: true,
@@ -111,7 +111,7 @@ export const useTaskStore = create<TasksStore>((set, get) => ({
   updateTask: async (params: IUpdateTaskParams): Promise<number> => {
     try {
       set({ loading: true });
-      const response = await updateTask(params);
+      const response = await updateTaskService(params);
       if (response.error) {
         set({
           error: true,
@@ -140,7 +140,7 @@ export const useTaskStore = create<TasksStore>((set, get) => ({
   deleteTask: async (id: string): Promise<number> => {
     try {
       set({ loading: true });
-      const response = await deleteTask(id);
+      const response = await deleteTaskService(id);
       if (response.error) {
         set({
           error: true,

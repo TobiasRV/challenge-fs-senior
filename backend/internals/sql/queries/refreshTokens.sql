@@ -20,3 +20,7 @@ FROM refresh_tokens
 JOIN users ON refresh_tokens.userId = users.id
 WHERE token = $1
 LIMIT 1;
+
+-- name: DeleteRefreshTokensByUserId :exec
+DELETE FROM refresh_tokens
+WHERE userId = $1;

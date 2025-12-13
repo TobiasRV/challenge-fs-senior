@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/TobiasRV/challenge-fs-senior/internals/models"
@@ -60,6 +61,7 @@ func (h *Handler) LogIn(c *fiber.Ctx) error {
 		Token:     refreshToken,
 		Revoked:   false,
 	})
+	log.Printf("error: %v", err)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.ErrorString("Error saving refresh token"))
 	}
@@ -113,5 +115,20 @@ func (h *Handler) RefreshToken(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"accessToken": newAccessToken,
+	})
+}
+
+func (h *Handler) LogOut(c *fiber.Ctx) error {
+	userId := c.Locals("userId").(string)
+	log.Printf("userId: %v", userId)
+	err := h.refreshTokenRepository.DeleteRefreshTokensByUserId(c.Context(), userId)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(utils.ErrorString("Error deleting refresh tokens"))
+	}
+
+	c.ClearCookie("jwt")
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Successfully logged out",
 	})
 }

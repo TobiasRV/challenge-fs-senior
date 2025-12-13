@@ -9,7 +9,7 @@ import { ICreateTaskBody, IGetTasksParams, IUpdateTaskParams } from "@/src/store
 import { createTasksRoute, deleteTasksRoute, getTasksRoute, updateTasksRoute } from "./routes";
 
 
-export const getTasks = async (params: IGetTasksParams) => {
+export const getTasksService = async (params: IGetTasksParams) => {
   try {
     const response = await server.get(getTasksRoute(), {
       params,
@@ -20,7 +20,7 @@ export const getTasks = async (params: IGetTasksParams) => {
   }
 };
 
-export const createTask = async (body: ICreateTaskBody) => {
+export const createTaskService = async (body: ICreateTaskBody) => {
   try {
     const response = await server.post(createTasksRoute(), body);
     return { ...response.data, statusCode: response.status };
@@ -29,7 +29,7 @@ export const createTask = async (body: ICreateTaskBody) => {
   }
 };
 
-export const updateTask = async (params: IUpdateTaskParams) => {
+export const updateTaskService = async (params: IUpdateTaskParams) => {
     try {
     const response = await server.put(updateTasksRoute(params.id), {
         title: params.title,
@@ -43,7 +43,7 @@ export const updateTask = async (params: IUpdateTaskParams) => {
   }
 };
 
-export const deleteTask = async (id: string) => {
+export const deleteTaskService = async (id: string) => {
     try {
     const response = await server.delete(deleteTasksRoute(id));
     return { ...response.data, statusCode: response.status };

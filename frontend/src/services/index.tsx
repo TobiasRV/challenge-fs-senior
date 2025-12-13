@@ -4,7 +4,7 @@ import { formatUser } from "../utils/helpers";
 import { localStorageKeys } from "../utils/consts";
 import { clearLs, getLsItem, setLsItem } from "../utils/localStorage";
 import { refreshTokenService } from "./apiServices/auth/service";
-import { getLoginRoute, getRegisterAdminRoute } from "./apiServices/auth/routes";
+import { loginRoute, registerAdminRoute } from "./apiServices/auth/routes";
 
 
 const BASE_URL_API = process.env.NEXT_PUBLIC_BASE_URL_API;
@@ -56,7 +56,7 @@ server.interceptors.request.use(
 server.interceptors.response.use(
   (response: AxiosResponse<any, any, {}>) => {
     if (
-      response.config.url && [getLoginRoute(), getRegisterAdminRoute()].includes(response.config.url)
+      response.config.url && [loginRoute(), registerAdminRoute()].includes(response.config.url)
     ) {
       const { accessToken, refreshToken, user } = response.data;
 

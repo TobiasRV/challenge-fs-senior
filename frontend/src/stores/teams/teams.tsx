@@ -1,7 +1,7 @@
 import { HttpStatusCode } from "axios";
 import { create } from "zustand";
 import { ICreateTeam, ITeam } from "./teams.interfaces";
-import { createTeam, getTeamByOwner } from "@/src/services/apiServices/teams/services";
+import { createTeamService, getTeamByOwnerService } from "@/src/services/apiServices/teams/services";
 import { setLsItem } from "@/src/utils/localStorage";
 import { localStorageKeys } from "@/src/utils/consts";
 
@@ -35,7 +35,7 @@ export const useTeamStore = create<TeamsStore>((set, get) => ({
   getTeamByOwner: async (): Promise<void> => {
     try {
       set({ loading: true });
-      const response = await getTeamByOwner();
+      const response = await getTeamByOwnerService();
       if (response?.error) {
         set({
           error: true,
@@ -78,7 +78,7 @@ export const useTeamStore = create<TeamsStore>((set, get) => ({
   createTeam: async (payload: ICreateTeam): Promise<number> => {
     try {
       set({ loading: true });
-      const response = await createTeam(payload);
+      const response = await createTeamService(payload);
       if (response?.error) {
         set({
           error: true,

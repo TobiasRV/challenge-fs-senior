@@ -7,10 +7,10 @@ import {
   IUpdateProjectParams,
 } from "./projects.interface";
 import {
-  createProjects,
-  deleteProject,
-  getProjects,
-  updateProject,
+  createProjectsService,
+  deleteProjectService,
+  getProjectsService,
+  updateProjectService,
 } from "@/src/services/apiServices/projects/service";
 
 interface ProjectStore {
@@ -48,7 +48,7 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
   getProjects: async (filters: IGetProjectParams): Promise<void> => {
     try {
       set({ loading: true });
-      const response = await getProjects(filters);
+      const response = await getProjectsService(filters);
       if (response.error) {
         set({
           error: true,
@@ -92,7 +92,7 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
   createProject: async (body: ICreateProjectBody): Promise<number> => {
     try {
       set({ loading: true });
-      const response = await createProjects(body);
+      const response = await createProjectsService(body);
       if (response.error) {
         set({
           error: true,
@@ -121,7 +121,7 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
   updateProject: async (params: IUpdateProjectParams): Promise<number> => {
     try {
       set({ loading: true });
-      const response = await updateProject(params);
+      const response = await updateProjectService(params);
       if (response.error) {
         set({
           error: true,
@@ -150,7 +150,7 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
   deleteProject: async (id: string): Promise<number> => {
     try {
       set({ loading: true });
-      const response = await deleteProject(id);
+      const response = await deleteProjectService(id);
       if (response.error) {
         set({
           error: true,

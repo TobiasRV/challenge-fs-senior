@@ -1,9 +1,9 @@
 import {
-  createUsers,
-  deleteUser,
+  createUsersService,
+  deleteUserService,
   emailExistsService,
-  getUsers,
-  updateUsers,
+  getUsersService,
+  updateUsersService,
 } from "@/src/services/apiServices/users/service";
 import { HttpStatusCode } from "axios";
 import { create } from "zustand";
@@ -74,7 +74,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   getUsers: async (filters: IGetUsersParams): Promise<void> => {
     try {
       set({ loading: true });
-      const response = await getUsers(filters);
+      const response = await getUsersService(filters);
       if (response.error) {
         set({
           error: true,
@@ -118,7 +118,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   createUser: async (userData: Partial<IUser>): Promise<number> => {
     try {
       set({ loading: true });
-      const response = await createUsers(userData);
+      const response = await createUsersService(userData);
 
       if (response.error) {
         set({
@@ -148,7 +148,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   updateUser: async (userData: IUpdateUsersParams): Promise<number> => {
     try {
       set({ loading: true });
-      const response = await updateUsers(userData);
+      const response = await updateUsersService(userData);
 
       if (response.error) {
         set({
@@ -178,7 +178,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   deleteUser: async (id: string): Promise<number> => {
     try {
       set({ loading: true });
-      const response = await deleteUser(id);
+      const response = await deleteUserService(id);
 
       if (response.error) {
         set({

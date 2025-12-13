@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { IUser } from "@/src/stores/users/users.interface";
-import { getUsers as getUsersService } from "@/src/services/apiServices/users/service";
+import { getUsersService as getUsersService } from "@/src/services/apiServices/users/service";
 import {
   Select,
   SelectTrigger,

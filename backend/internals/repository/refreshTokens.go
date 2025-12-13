@@ -6,6 +6,7 @@ import (
 
 	"github.com/TobiasRV/challenge-fs-senior/internals/models"
 	"github.com/TobiasRV/challenge-fs-senior/internals/sqlc/database"
+	"github.com/google/uuid"
 )
 
 type RefreshTokenRepository struct {
@@ -38,4 +39,19 @@ func (rtr *RefreshTokenRepository) GetRefreshTokenByToken(c context.Context, tok
 	}
 
 	return models.DatabaseRefreshTokenWithUserToRefreshTokenWithUser(refreshToken), nil
+}
+
+func (rtr *RefreshTokenRepository) DeleteRefreshTokensByUserId(c context.Context, userId string) error {
+	userUUID, err := uuid.Parse(userId)
+	if err != nil {
+		return err
+	}
+
+	err = rtr.queries.DeleteRefreshTokensByUserId(c, userUUID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

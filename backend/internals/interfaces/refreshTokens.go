@@ -9,4 +9,5 @@ import (
 type IRefreshTokenRepository interface {
 	CreateRefreshToken(context.Context, models.RefreshToken) error
 	GetRefreshTokenByToken(context.Context, string) (models.RefreshTokenWithUser, error)
+	DeleteRefreshTokensByUserId(context.Context, string) error
 }

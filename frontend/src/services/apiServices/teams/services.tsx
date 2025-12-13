@@ -3,7 +3,7 @@ import server from "../..";
 import handleAxiosErrors from "../../axios.helper";
 import { getTeamByOwnerRoute, getCreateTeamRoute } from "./routes";
 
-export const getTeamByOwner = async () => {
+export const getTeamByOwnerService = async () => {
     try {
         const response = await server.get(getTeamByOwnerRoute());
         return {...response.data, statusCode: response.status}
@@ -12,7 +12,7 @@ export const getTeamByOwner = async () => {
     }
 }
 
-export const createTeam = async (payload: ICreateTeam) => {
+export const createTeamService = async (payload: ICreateTeam) => {
     const { name } = payload;
     try {
         const response = await server.post(getCreateTeamRoute(), {

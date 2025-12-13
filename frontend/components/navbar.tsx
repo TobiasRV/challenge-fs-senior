@@ -2,21 +2,27 @@
 
 import { useAuthStore } from "@/src/stores/auth/auth";
 import { UserRolesEnum } from "@/src/utils/enums";
-import { ArrowBigLeft, ArrowRight, Trello } from "lucide-react";
+import { ArrowRight, LogOut, Trello } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { useShallow } from "zustand/shallow";
 import { Button } from "./ui/button";
 
 export default function Navbar() {
-  const { isLoggedIn, user } = useAuthStore(
+  const { isLoggedIn, user, logOut } = useAuthStore(
     useShallow((state) => ({
       user: state.user,
-      isLoggedIn: state.isLoggedIn
+      isLoggedIn: state.isLoggedIn,
+      logOut: state.logOut
     }))
   );
 
   const router = useRouter();
   const pathname = usePathname();
+
+  const handleLogOut = () => {
+    logOut();
+    router.push("/login");
+  };
 
   return (
     <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
@@ -34,18 +40,32 @@ export default function Navbar() {
           </button>
         </div>
 
-        {isLoggedIn && user?.role === UserRolesEnum.ADMIN && pathname !== "/users-dashboard" && (
+        <div>
+          {isLoggedIn && user?.role === UserRolesEnum.ADMIN && pathname !== "/users-dashboard" && (
           <Button
             type="button"
             onClick={() => router.push("/users-dashboard")}
             className="ml-4 px-3 py-1 rounded text-white"
           >
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 gap-4">
                 <p className="m-0">Users dashboard</p>
                 <ArrowRight />
             </div>
           </Button>
         )}
+        {isLoggedIn && (
+          <Button
+            type="button"
+            onClick={handleLogOut}
+            className="ml-4 px-3 py-1 rounded text-white"
+          >
+            <div className="flex items-center space-x-2 gap-4">
+                <p className="m-0">Log Out</p>
+                <LogOut />
+            </div>
+          </Button>
+        )}
+        </div>
       </div>
     </header>
   );
