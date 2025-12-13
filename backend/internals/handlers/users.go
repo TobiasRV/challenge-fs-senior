@@ -13,13 +13,24 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// CreateUserAdmin godoc
+// @Summary Register admin user
+// @Description Create a new admin user account
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body interfaces.CreateAdminRequest true "Admin registration data"
+// @Success 201 {object} interfaces.CreateAdminResponse
+// @Failure 400 {object} utils.ErrorResponse "Validation error"
+// @Failure 409 {object} utils.ErrorResponse "User already exists"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Router /auth/register-admin [post]
 func (h *Handler) CreateUserAdmin(c *fiber.Ctx) error {
 
 	payload := struct {
 		Username string `json:"username" validate:"required"`
 		Password string `json:"password" validate:"required"`
 		Email    string `json:"email" validate:"required,email"`
-		// Role     models.Userroles `json:"role" validate:"required,oneof=Admin Manager Member"`
 	}{}
 
 	if err := c.BodyParser(&payload); err != nil {
@@ -87,6 +98,20 @@ func (h *Handler) CreateUserAdmin(c *fiber.Ctx) error {
 	})
 }
 
+// CreateUser godoc
+// @Summary Create a new user
+// @Description Create a new user (Admin only)
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param request body interfaces.CreateUserPayload true "User creation data"
+// @Success 201 {object} interfaces.CreateUserResponse
+// @Failure 400 {object} utils.ErrorResponse "Validation error"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Admin only"
+// @Failure 409 {object} utils.ErrorResponse "User already exists"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /users [post]
 func (h *Handler) CreateUser(c *fiber.Ctx) error {
 
 	userRole := c.Locals("userRole")
@@ -136,6 +161,17 @@ func (h *Handler) CreateUser(c *fiber.Ctx) error {
 	})
 }
 
+// UserExistsByEmail godoc
+// @Summary Check if user exists by email
+// @Description Check if a user with the given email exists
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param email query string true "User email"
+// @Success 200 {object} interfaces.UserExistsResponse
+// @Failure 400 {object} utils.ErrorResponse "Email is required"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Router /users/exists-by-email [get]
 func (h *Handler) UserExistsByEmail(c *fiber.Ctx) error {
 	email := c.Query("email")
 	if email == "" {
@@ -159,6 +195,23 @@ func (h *Handler) UserExistsByEmail(c *fiber.Ctx) error {
 	})
 }
 
+// GetUsers godoc
+// @Summary Get all users
+// @Description Get paginated list of users (Admin or Manager only)
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param email query string false "Filter by email"
+// @Param teamId query string true "Team ID (required)"
+// @Param role query string false "Filter by role (Admin, Manager, Member)"
+// @Param cursor query string false "Pagination cursor"
+// @Param limit query int true "Number of items per page"
+// @Success 200 {object} interfaces.UsersListResponse
+// @Failure 400 {object} utils.ErrorResponse "Bad request"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Admin or Manager only"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /users [get]
 func (h *Handler) GetUsers(c *fiber.Ctx) error {
 
 	userRole := c.Locals("userRole")
@@ -262,6 +315,21 @@ func (h *Handler) GetUsers(c *fiber.Ctx) error {
 	})
 }
 
+// UpdateUser godoc
+// @Summary Update a user
+// @Description Update user information (Admin only)
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Param request body interfaces.UpdateUserPayload true "User update data"
+// @Success 200 {object} models.User
+// @Failure 400 {object} utils.ErrorResponse "Validation error"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Admin only"
+// @Failure 404 {object} utils.ErrorResponse "User not found"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /users/{id} [put]
 func (h *Handler) UpdateUser(c *fiber.Ctx) error {
 
 	userRole := c.Locals("userRole")
@@ -325,6 +393,20 @@ func (h *Handler) UpdateUser(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(newUser)
 }
 
+// DeleteUser godoc
+// @Summary Delete a user
+// @Description Delete a user by ID (Admin only)
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Success 200 {object} interfaces.MessageResponse
+// @Failure 400 {object} utils.ErrorResponse "Invalid ID"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Admin only"
+// @Failure 404 {object} utils.ErrorResponse "User not found"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /users/{id} [delete]
 func (h *Handler) DeleteUser(c *fiber.Ctx) error {
 
 	userRole := c.Locals("userRole")

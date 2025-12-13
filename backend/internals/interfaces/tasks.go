@@ -7,6 +7,7 @@ import (
 
 	"github.com/TobiasRV/challenge-fs-senior/internals/models"
 	"github.com/TobiasRV/challenge-fs-senior/internals/sqlc/database"
+	"github.com/TobiasRV/challenge-fs-senior/internals/utils"
 	"github.com/google/uuid"
 )
 
@@ -16,6 +17,15 @@ type ITaskRepository interface {
 	GetTaskById(context.Context, uuid.UUID) (models.Task, error)
 	UpdateTask(context.Context, UpdateTaskData) (models.Task, error)
 	DeleteTask(context.Context, uuid.UUID) error
+}
+
+type TasksListResponse struct {
+	Data       []GetTasksResponse `json:"data"`
+	Pagination utils.Pagination   `json:"pagination"`
+}
+
+type DeleteTaskResponse struct {
+	Deleted bool `json:"deleted" example:"true"`
 }
 
 type CreateTaksPayload struct {

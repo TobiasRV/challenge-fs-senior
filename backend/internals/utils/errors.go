@@ -54,3 +54,13 @@ func ErrorString(msg string) Error {
 	e.Errors["body"] = msg
 	return e
 }
+
+// ErrorResponse represents a standard error response for Swagger documentation
+type ErrorResponse struct {
+	Errors ErrorBody `json:"errors"`
+}
+
+// ErrorBody represents the body of an error response
+type ErrorBody struct {
+	Body string `json:"body" example:"error message"`
+}

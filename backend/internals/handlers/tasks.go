@@ -12,6 +12,20 @@ import (
 	"github.com/google/uuid"
 )
 
+// CreateTask godoc
+// @Summary Create a new task
+// @Description Create a new task (Manager only)
+// @Tags Tasks
+// @Accept json
+// @Produce json
+// @Param request body interfaces.CreateTaksPayload true "Task creation data"
+// @Success 201 {object} interfaces.GetTasksResponse
+// @Failure 400 {object} utils.ErrorResponse "Validation error"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Manager only"
+// @Failure 404 {object} utils.ErrorResponse "Project not found"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /tasks [post]
 func (h *Handler) CreateTask(c *fiber.Ctx) error {
 	userRole := c.Locals("userRole")
 	if userRole != "Manager" {
@@ -75,6 +89,21 @@ func (h *Handler) CreateTask(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(task)
 }
 
+// GetTasks godoc
+// @Summary Get all tasks
+// @Description Get paginated list of tasks. Members can only see their own tasks.
+// @Tags Tasks
+// @Accept json
+// @Produce json
+// @Param projectId query string false "Filter by project ID (required for Admin/Manager)"
+// @Param title query string false "Filter by title"
+// @Param cursor query string false "Pagination cursor"
+// @Param limit query int true "Number of items per page"
+// @Success 200 {object} interfaces.TasksListResponse
+// @Failure 400 {object} utils.ErrorResponse "Bad request - projectId required for Admin/Manager"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /tasks [get]
 func (h *Handler) GetTasks(c *fiber.Ctx) error {
 
 	queryParams := interfaces.GetTasksParams{}
@@ -200,6 +229,21 @@ func (h *Handler) GetTasks(c *fiber.Ctx) error {
 	})
 }
 
+// UpdateTask godoc
+// @Summary Update a task
+// @Description Update task information (Manager only)
+// @Tags Tasks
+// @Accept json
+// @Produce json
+// @Param id path string true "Task ID"
+// @Param request body interfaces.UpdateTaskPayload true "Task update data"
+// @Success 200 {object} interfaces.GetTasksResponse
+// @Failure 400 {object} utils.ErrorResponse "Validation error"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Manager only"
+// @Failure 404 {object} utils.ErrorResponse "Task not found"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /tasks/{id} [put]
 func (h *Handler) UpdateTask(c *fiber.Ctx) error {
 
 	userRole := c.Locals("userRole")
@@ -263,6 +307,20 @@ func (h *Handler) UpdateTask(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(updatedTask)
 }
 
+// DeleteTask godoc
+// @Summary Delete a task
+// @Description Delete a task by ID (Manager only)
+// @Tags Tasks
+// @Accept json
+// @Produce json
+// @Param id path string true "Task ID"
+// @Success 200 {object} interfaces.DeleteTaskResponse
+// @Failure 400 {object} utils.ErrorResponse "Invalid ID"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Manager only"
+// @Failure 404 {object} utils.ErrorResponse "Task not found"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /tasks/{id} [delete]
 func (h *Handler) DeleteTask(c *fiber.Ctx) error {
 	userRole := c.Locals("userRole")
 

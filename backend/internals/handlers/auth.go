@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	_ "github.com/TobiasRV/challenge-fs-senior/internals/interfaces"
 	"github.com/TobiasRV/challenge-fs-senior/internals/models"
 	"github.com/TobiasRV/challenge-fs-senior/internals/utils"
 	"github.com/gofiber/fiber/v2"
@@ -13,6 +14,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// LogIn godoc
+// @Summary User login
+// @Description Authenticate user and return access and refresh tokens
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body interfaces.LoginRequest true "Login credentials"
+// @Success 200 {object} interfaces.LoginResponse
+// @Failure 400 {object} utils.ErrorResponse "Validation error"
+// @Failure 409 {object} utils.ErrorResponse "Invalid credentials"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Router /auth/login [post]
 func (h *Handler) LogIn(c *fiber.Ctx) error {
 	payload := struct {
 		Email    string `json:"email" validate:"required"`
@@ -75,6 +88,18 @@ func (h *Handler) LogIn(c *fiber.Ctx) error {
 	})
 }
 
+// RefreshToken godoc
+// @Summary Refresh access token
+// @Description Get a new access token using a refresh token
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body interfaces.RefreshTokenRequest true "Refresh token"
+// @Success 200 {object} interfaces.RefreshTokenResponse
+// @Failure 400 {object} utils.ErrorResponse "Validation error"
+// @Failure 401 {object} utils.ErrorResponse "Invalid or expired refresh token"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Router /auth/refresh-token [post]
 func (h *Handler) RefreshToken(c *fiber.Ctx) error {
 	payload := struct {
 		RefreshToken string `json:"refreshToken" validate:"required"`
@@ -118,6 +143,17 @@ func (h *Handler) RefreshToken(c *fiber.Ctx) error {
 	})
 }
 
+// LogOut godoc
+// @Summary User logout
+// @Description Logout user and revoke all refresh tokens
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Success 200 {object} interfaces.LogoutResponse
+// @Failure 401 {object} utils.ErrorResponse "Unauthorized"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /auth/logout [delete]
 func (h *Handler) LogOut(c *fiber.Ctx) error {
 	userId := c.Locals("userId").(string)
 	log.Printf("userId: %v", userId)

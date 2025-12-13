@@ -12,6 +12,19 @@ import (
 	"github.com/google/uuid"
 )
 
+// CreateProject godoc
+// @Summary Create a new project
+// @Description Create a new project (Manager only)
+// @Tags Projects
+// @Accept json
+// @Produce json
+// @Param request body interfaces.CreateProjectPayload true "Project creation data"
+// @Success 201 {object} interfaces.GetProjectsResponse
+// @Failure 400 {object} utils.ErrorResponse "Validation error or manager not found"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Manager only"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /projects [post]
 func (h *Handler) CreateProject(c *fiber.Ctx) error {
 	userRole := c.Locals("userRole")
 	userId := c.Locals("userId")
@@ -64,6 +77,24 @@ func (h *Handler) CreateProject(c *fiber.Ctx) error {
 
 }
 
+// GetProjects godoc
+// @Summary Get all projects
+// @Description Get paginated list of projects (Admin or Manager only)
+// @Tags Projects
+// @Accept json
+// @Produce json
+// @Param name query string false "Filter by name"
+// @Param teamId query string false "Filter by team ID"
+// @Param managerId query string false "Filter by manager ID"
+// @Param withStats query bool false "Include task statistics"
+// @Param cursor query string false "Pagination cursor"
+// @Param limit query int true "Number of items per page"
+// @Success 200 {object} interfaces.ProjectsListResponse
+// @Failure 400 {object} utils.ErrorResponse "Bad request - teamId or managerId required"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Admin or Manager only"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /projects [get]
 func (h *Handler) GetProjects(c *fiber.Ctx) error {
 
 	userRole := c.Locals("userRole")
@@ -172,6 +203,21 @@ func (h *Handler) GetProjects(c *fiber.Ctx) error {
 	})
 }
 
+// UpdateProject godoc
+// @Summary Update a project
+// @Description Update project information (Manager only, must be the project manager)
+// @Tags Projects
+// @Accept json
+// @Produce json
+// @Param id path string true "Project ID"
+// @Param request body interfaces.UpdateProjectPayload true "Project update data"
+// @Success 200 {object} interfaces.GetProjectsResponse
+// @Failure 400 {object} utils.ErrorResponse "Validation error"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Must be the project manager"
+// @Failure 404 {object} utils.ErrorResponse "Project not found"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /projects/{id} [put]
 func (h *Handler) UpdateProject(c *fiber.Ctx) error {
 
 	userRole := c.Locals("userRole")
@@ -238,6 +284,20 @@ func (h *Handler) UpdateProject(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(updatedProject)
 }
 
+// DeleteProject godoc
+// @Summary Delete a project
+// @Description Delete a project by ID (Manager only)
+// @Tags Projects
+// @Accept json
+// @Produce json
+// @Param id path string true "Project ID"
+// @Success 200 {object} interfaces.MessageResponse
+// @Failure 400 {object} utils.ErrorResponse "Invalid ID"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Manager only"
+// @Failure 404 {object} utils.ErrorResponse "Project not found"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /projects/{id} [delete]
 func (h *Handler) DeleteProject(c *fiber.Ctx) error {
 	userRole := c.Locals("userRole")
 

@@ -5,12 +5,28 @@ import (
 	"errors"
 	"time"
 
+	_ "github.com/TobiasRV/challenge-fs-senior/internals/interfaces"
 	"github.com/TobiasRV/challenge-fs-senior/internals/models"
 	"github.com/TobiasRV/challenge-fs-senior/internals/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
 
+// CreateTeam godoc
+// @Summary Create a new team
+// @Description Create a new team (Admin only)
+// @Tags Teams
+// @Accept json
+// @Produce json
+// @Param request body interfaces.CreateTeamRequest true "Team creation data"
+// @Success 201 {object} models.Team
+// @Failure 400 {object} utils.ErrorResponse "Validation error"
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Admin only"
+// @Failure 404 {object} utils.ErrorResponse "User not found"
+// @Failure 409 {object} utils.ErrorResponse "User already has a team"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /teams [post]
 func (h *Handler) CreateTeam(c *fiber.Ctx) error {
 	userId := c.Locals("userId")
 	userRole := c.Locals("userRole")
@@ -72,6 +88,17 @@ func (h *Handler) CreateTeam(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(team)
 }
 
+// GetTeamByOwner godoc
+// @Summary Get team by owner
+// @Description Get the team owned by the current user (Admin only)
+// @Tags Teams
+// @Accept json
+// @Produce json
+// @Success 200 {object} interfaces.TeamExistsResponse
+// @Failure 403 {object} utils.ErrorResponse "Forbidden - Admin only"
+// @Failure 500 {object} utils.ErrorResponse "Internal server error"
+// @Security BearerAuth
+// @Router /teams/by-owner [get]
 func (h *Handler) GetTeamByOwner(c *fiber.Ctx) error {
 
 	userId := c.Locals("userId")

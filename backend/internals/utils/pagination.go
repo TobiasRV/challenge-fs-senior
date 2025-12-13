@@ -8,6 +8,12 @@ import (
 	"github.com/google/uuid"
 )
 
+// Pagination represents pagination info for Swagger documentation
+type Pagination struct {
+	NextCursor string `json:"next_cursor" example:"eyJpZCI6IjEyMzQ1In0="`
+	PrevCursor string `json:"prev_cursor" example:"eyJpZCI6IjEyMzQ1In0="`
+}
+
 type PaginationInfo struct {
 	NextCursor string `json:"next_cursor"`
 	PrevCursor string `json:"prev_cursor"`

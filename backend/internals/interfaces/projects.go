@@ -6,6 +6,7 @@ import (
 
 	"github.com/TobiasRV/challenge-fs-senior/internals/models"
 	"github.com/TobiasRV/challenge-fs-senior/internals/sqlc/database"
+	"github.com/TobiasRV/challenge-fs-senior/internals/utils"
 	"github.com/google/uuid"
 )
 
@@ -16,6 +17,11 @@ type IProjectRepository interface {
 	GetProjectById(context.Context, uuid.UUID) (models.Project, error)
 	GetProjectByManager(context.Context, uuid.UUID) (models.Project, error)
 	DeleteProject(context.Context, uuid.UUID) error
+}
+
+type ProjectsListResponse struct {
+	Data       []GetProjectsResponse `json:"data"`
+	Pagination utils.Pagination      `json:"pagination"`
 }
 
 type GetProjectsParams struct {

@@ -1,0 +1,1106 @@
+basePath: /api/v1
+definitions:
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateAdminRequest:
+    properties:
+      email:
+        example: admin@example.com
+        type: string
+      password:
+        example: password123
+        type: string
+      username:
+        example: admin
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateAdminResponse:
+    properties:
+      accessToken:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      refreshToken:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      user:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.User'
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateProjectPayload:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateTaksPayload:
+    properties:
+      description:
+        type: string
+      projectId:
+        type: string
+      title:
+        type: string
+      userId:
+        type: string
+    required:
+    - projectId
+    - title
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateTeamRequest:
+    properties:
+      name:
+        example: Development Team
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateUserPayload:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.Userroles'
+        enum:
+        - Admin
+        - Manager
+        - Member
+      teamId:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - role
+    - username
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateUserResponse:
+    properties:
+      user:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.User'
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.DeleteTaskResponse:
+    properties:
+      deleted:
+        example: true
+        type: boolean
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.GetProjectsResponse:
+    properties:
+      createdAt:
+        type: string
+      doneTasks:
+        type: integer
+      id:
+        type: string
+      inProgressTasks:
+        type: integer
+      managerId:
+        type: string
+      name:
+        type: string
+      status:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.Projectstatus'
+      teamId:
+        type: string
+      toDoTasks:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.GetTasksResponse:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      projectId:
+        type: string
+      projectName:
+        type: string
+      status:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.Taskstatus'
+      title:
+        type: string
+      updatedAt:
+        type: string
+      userId:
+        $ref: '#/definitions/uuid.NullUUID'
+      userName:
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.LoginRequest:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      password:
+        example: password123
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.LoginResponse:
+    properties:
+      accessToken:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      refreshToken:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      user:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.User'
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.LogoutResponse:
+    properties:
+      message:
+        example: Successfully logged out
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.MessageResponse:
+    properties:
+      message:
+        example: operation completed successfully
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.ProjectsListResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.GetProjectsResponse'
+        type: array
+      pagination:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.Pagination'
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.RefreshTokenRequest:
+    properties:
+      refreshToken:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.RefreshTokenResponse:
+    properties:
+      accessToken:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.TasksListResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.GetTasksResponse'
+        type: array
+      pagination:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.Pagination'
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.TeamExistsResponse:
+    properties:
+      exists:
+        example: true
+        type: boolean
+      team:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.Team'
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.UpdateProjectPayload:
+    properties:
+      name:
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.Projectstatus'
+        enum:
+        - OnHold
+        - InProgress
+        - Completed
+    required:
+    - name
+    - status
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.UpdateTaskPayload:
+    properties:
+      description:
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.Taskstatus'
+        enum:
+        - ToDo
+        - InProgress
+        - Done
+      title:
+        type: string
+      userId:
+        type: string
+    required:
+    - status
+    - title
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.UpdateUserPayload:
+    properties:
+      email:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - username
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.UserExistsResponse:
+    properties:
+      exists:
+        example: true
+        type: boolean
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_interfaces.UsersListResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.User'
+        type: array
+      pagination:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.Pagination'
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_models.Projectstatus:
+    enum:
+    - OnHold
+    - InProgress
+    - Completed
+    type: string
+    x-enum-varnames:
+    - ProjectstatusOnHold
+    - ProjectstatusInProgress
+    - ProjectstatusCompleted
+  github_com_TobiasRV_challenge-fs-senior_internals_models.Taskstatus:
+    enum:
+    - ToDo
+    - InProgress
+    - Done
+    type: string
+    x-enum-varnames:
+    - TaskstatusToDo
+    - TaskstatusInProgress
+    - TaskstatusDone
+  github_com_TobiasRV_challenge-fs-senior_internals_models.Team:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      ownerId:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_models.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      role:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.Userroles'
+      teamId:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_models.Userroles:
+    enum:
+    - Admin
+    - Manager
+    - Member
+    type: string
+    x-enum-varnames:
+    - UserrolesAdmin
+    - UserrolesManager
+    - UserrolesMember
+  github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorBody:
+    properties:
+      body:
+        example: error message
+        type: string
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse:
+    properties:
+      errors:
+        $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorBody'
+    type: object
+  github_com_TobiasRV_challenge-fs-senior_internals_utils.Pagination:
+    properties:
+      next_cursor:
+        example: eyJpZCI6IjEyMzQ1In0=
+        type: string
+      prev_cursor:
+        example: eyJpZCI6IjEyMzQ1In0=
+        type: string
+    type: object
+  uuid.NullUUID:
+    properties:
+      uuid:
+        type: string
+      valid:
+        description: Valid is true if UUID is not NULL
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@example.com
+    name: API Support
+  description: API for managing teams, projects, tasks, and users
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Challenge FS Senior API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return access and refresh tokens
+      parameters:
+      - description: Login credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.LoginResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "409":
+          description: Invalid credentials
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      summary: User login
+      tags:
+      - Auth
+  /auth/logout:
+    delete:
+      consumes:
+      - application/json
+      description: Logout user and revoke all refresh tokens
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.LogoutResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: User logout
+      tags:
+      - Auth
+  /auth/refresh-token:
+    post:
+      consumes:
+      - application/json
+      description: Get a new access token using a refresh token
+      parameters:
+      - description: Refresh token
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.RefreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.RefreshTokenResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "401":
+          description: Invalid or expired refresh token
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      summary: Refresh access token
+      tags:
+      - Auth
+  /auth/register-admin:
+    post:
+      consumes:
+      - application/json
+      description: Create a new admin user account
+      parameters:
+      - description: Admin registration data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateAdminRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateAdminResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "409":
+          description: User already exists
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      summary: Register admin user
+      tags:
+      - Auth
+  /projects:
+    get:
+      consumes:
+      - application/json
+      description: Get paginated list of projects (Admin or Manager only)
+      parameters:
+      - description: Filter by name
+        in: query
+        name: name
+        type: string
+      - description: Filter by team ID
+        in: query
+        name: teamId
+        type: string
+      - description: Filter by manager ID
+        in: query
+        name: managerId
+        type: string
+      - description: Include task statistics
+        in: query
+        name: withStats
+        type: boolean
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      - description: Number of items per page
+        in: query
+        name: limit
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.ProjectsListResponse'
+        "400":
+          description: Bad request - teamId or managerId required
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Admin or Manager only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all projects
+      tags:
+      - Projects
+    post:
+      consumes:
+      - application/json
+      description: Create a new project (Manager only)
+      parameters:
+      - description: Project creation data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateProjectPayload'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.GetProjectsResponse'
+        "400":
+          description: Validation error or manager not found
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Manager only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new project
+      tags:
+      - Projects
+  /projects/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a project by ID (Manager only)
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.MessageResponse'
+        "400":
+          description: Invalid ID
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Manager only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "404":
+          description: Project not found
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a project
+      tags:
+      - Projects
+    put:
+      consumes:
+      - application/json
+      description: Update project information (Manager only, must be the project manager)
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Project update data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.UpdateProjectPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.GetProjectsResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Must be the project manager
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "404":
+          description: Project not found
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update a project
+      tags:
+      - Projects
+  /tasks:
+    get:
+      consumes:
+      - application/json
+      description: Get paginated list of tasks. Members can only see their own tasks.
+      parameters:
+      - description: Filter by project ID (required for Admin/Manager)
+        in: query
+        name: projectId
+        type: string
+      - description: Filter by title
+        in: query
+        name: title
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      - description: Number of items per page
+        in: query
+        name: limit
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.TasksListResponse'
+        "400":
+          description: Bad request - projectId required for Admin/Manager
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all tasks
+      tags:
+      - Tasks
+    post:
+      consumes:
+      - application/json
+      description: Create a new task (Manager only)
+      parameters:
+      - description: Task creation data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateTaksPayload'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.GetTasksResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Manager only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "404":
+          description: Project not found
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new task
+      tags:
+      - Tasks
+  /tasks/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a task by ID (Manager only)
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.DeleteTaskResponse'
+        "400":
+          description: Invalid ID
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Manager only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "404":
+          description: Task not found
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a task
+      tags:
+      - Tasks
+    put:
+      consumes:
+      - application/json
+      description: Update task information (Manager only)
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Task update data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.UpdateTaskPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.GetTasksResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Manager only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "404":
+          description: Task not found
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update a task
+      tags:
+      - Tasks
+  /teams:
+    post:
+      consumes:
+      - application/json
+      description: Create a new team (Admin only)
+      parameters:
+      - description: Team creation data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateTeamRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.Team'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Admin only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "409":
+          description: User already has a team
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new team
+      tags:
+      - Teams
+  /teams/by-owner:
+    get:
+      consumes:
+      - application/json
+      description: Get the team owned by the current user (Admin only)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.TeamExistsResponse'
+        "403":
+          description: Forbidden - Admin only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get team by owner
+      tags:
+      - Teams
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get paginated list of users (Admin or Manager only)
+      parameters:
+      - description: Filter by email
+        in: query
+        name: email
+        type: string
+      - description: Team ID (required)
+        in: query
+        name: teamId
+        required: true
+        type: string
+      - description: Filter by role (Admin, Manager, Member)
+        in: query
+        name: role
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      - description: Number of items per page
+        in: query
+        name: limit
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.UsersListResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Admin or Manager only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all users
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user (Admin only)
+      parameters:
+      - description: User creation data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateUserPayload'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.CreateUserResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Admin only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "409":
+          description: User already exists
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new user
+      tags:
+      - Users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user by ID (Admin only)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.MessageResponse'
+        "400":
+          description: Invalid ID
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Admin only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a user
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Update user information (Admin only)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User update data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.UpdateUserPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_models.User'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "403":
+          description: Forbidden - Admin only
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update a user
+      tags:
+      - Users
+  /users/exists-by-email:
+    get:
+      consumes:
+      - application/json
+      description: Check if a user with the given email exists
+      parameters:
+      - description: User email
+        in: query
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_interfaces.UserExistsResponse'
+        "400":
+          description: Email is required
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_TobiasRV_challenge-fs-senior_internals_utils.ErrorResponse'
+      summary: Check if user exists by email
+      tags:
+      - Users
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -5,9 +5,13 @@ import (
 
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/swagger"
 )
 
 func (h *Handler) Register(r *fiber.App) {
+	// Swagger documentation endpoint
+	r.Get("/swagger/*", swagger.HandlerDefault)
+
 	api := r.Group("/api")
 	v1 := api.Group("/v1")
 

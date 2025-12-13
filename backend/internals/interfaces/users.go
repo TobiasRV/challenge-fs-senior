@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/TobiasRV/challenge-fs-senior/internals/models"
+	"github.com/TobiasRV/challenge-fs-senior/internals/utils"
 	"github.com/google/uuid"
 )
 
@@ -15,6 +16,35 @@ type IUserRepository interface {
 	GetUsers(context.Context, GetUserFilters) ([]models.User, error)
 	UpdateUser(context.Context, UpdateUserData) (models.User, error)
 	DeleteUser(context.Context, uuid.UUID) error
+}
+
+type CreateAdminRequest struct {
+	Username string `json:"username" example:"admin"`
+	Password string `json:"password" example:"password123"`
+	Email    string `json:"email" example:"admin@example.com"`
+}
+
+type CreateAdminResponse struct {
+	AccessToken  string      `json:"accessToken" example:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."`
+	RefreshToken string      `json:"refreshToken" example:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."`
+	User         models.User `json:"user"`
+}
+
+type CreateUserResponse struct {
+	User models.User `json:"user"`
+}
+
+type UserExistsResponse struct {
+	Exists bool `json:"exists" example:"true"`
+}
+
+type UsersListResponse struct {
+	Data       []models.User    `json:"data"`
+	Pagination utils.Pagination `json:"pagination"`
+}
+
+type MessageResponse struct {
+	Message string `json:"message" example:"operation completed successfully"`
 }
 
 type GetUserParams struct {
