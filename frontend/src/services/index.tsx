@@ -1,6 +1,5 @@
 import axios, { AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from "axios";
 
-import { redirect, RedirectType } from "next/navigation";
 import { formatUser } from "../utils/helpers";
 import { localStorageKeys } from "../utils/consts";
 import { clearLs, getLsItem, setLsItem } from "../utils/localStorage";
@@ -18,8 +17,10 @@ const server = axios.create({
 
 
 const redirectToLogin = () => {
-  // clearLs()
-  redirect("/", RedirectType.replace)
+  clearLs();
+  if (typeof window !== "undefined") {
+    window.location.replace("/");
+  }
 };
 
 const refreshToken = async () => {

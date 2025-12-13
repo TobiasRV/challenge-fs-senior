@@ -107,6 +107,12 @@ func (ur *UserRepository) GetUsers(c context.Context, filters interfaces.GetUser
 		sql = sql.Where(sq.Like{"LOWER(email)": fmt.Sprintf("%%%v%%", emailLower)})
 	}
 
+	if filters.Role != "" {
+		sql = sql.Where(sq.Eq{
+			"role": filters.Role,
+		})
+	}
+
 	if orderAsc {
 		sql = sql.OrderBy("created_at ASC, id ASC").Limit(filters.Limit + 1)
 	} else {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"strings"
 
 	sq "github.com/Masterminds/squirrel"
@@ -26,13 +27,7 @@ func NewProjectRepository(queries *database.Queries, db *sql.DB) *ProjectReposit
 }
 
 func (pr *ProjectRepository) CreateProject(c context.Context, data database.CreateProjectParams) (models.Project, error) {
-	newProject, err := pr.queries.CreateProject(c, database.CreateProjectParams{
-		CreatedAt: data.CreatedAt,
-		UpdatedAt: data.UpdatedAt,
-		Name:      data.Name,
-		TeamID:    data.TeamID,
-		ManagerID: data.ManagerID,
-	})
+	newProject, err := pr.queries.CreateProject(c, data)
 
 	if err != nil {
 		return models.Project{}, err
@@ -44,7 +39,7 @@ func (pr *ProjectRepository) CreateProject(c context.Context, data database.Crea
 func (pr *ProjectRepository) GetProjects(c context.Context, filters interfaces.GetProjectsFilters) ([]interfaces.GetProjectsResponse, error) {
 
 	var sql sq.SelectBuilder
-
+	log.Println(filters.WithStats)
 	if filters.WithStats {
 		sql = sq.StatementBuilder.PlaceholderFormat(sq.Dollar).Select(
 			"p.id",
@@ -58,7 +53,7 @@ func (pr *ProjectRepository) GetProjects(c context.Context, filters interfaces.G
 			"COUNT(t.id) FILTER (WHERE t.status = 'ToDo') AS \"ToDoTasks\"",
 			"COUNT(t.id) FILTER (WHERE t.status = 'InProgress') AS \"InProgressTasks\"",
 			"COUNT(t.id) FILTER (WHERE t.status = 'Done') AS \"DoneTasks\"",
-		).From("projects p").LeftJoin("tasks t ON t.project_id = p.id")
+		).From("projects p").LeftJoin("tasks t ON t.project_id = p.id").GroupBy("p.id", "p.created_at", "p.updated_at", "p.name", "p.team_id", "p.manager_id", "p.status")
 	} else {
 		sql = sq.StatementBuilder.PlaceholderFormat(sq.Dollar).Select("*").From("projects p")
 	}
@@ -171,8 +166,20 @@ func (pr *ProjectRepository) GetProjectById(c context.Context, id uuid.UUID) (mo
 
 }
 
+func (pr *ProjectRepository) GetProjectByManager(c context.Context, id uuid.UUID) (models.Project, error) {
+
+	project, err := pr.queries.GetProjectByManager(c, id)
+
+	if err != nil {
+		return models.Project{}, err
+	}
+
+	return models.DatabaseProjectToProject(project), nil
+
+}
+
 func (pr *ProjectRepository) UpdateProject(c context.Context, data interfaces.UpdateProjectData) (models.Project, error) {
-	user, err := pr.queries.UpdateProject(c, database.UpdateProjectParams{
+	project, err := pr.queries.UpdateProject(c, database.UpdateProjectParams{
 		Name:      data.Name,
 		Status:    database.Projectstatus(data.Status),
 		UpdatedAt: data.UpdatedAt,
@@ -183,7 +190,7 @@ func (pr *ProjectRepository) UpdateProject(c context.Context, data interfaces.Up
 		return models.Project{}, err
 	}
 
-	return models.DatabaseProjectToProject(user), nil
+	return models.DatabaseProjectToProject(project), nil
 }
 
 func (pr *ProjectRepository) DeleteProject(c context.Context, id uuid.UUID) error {

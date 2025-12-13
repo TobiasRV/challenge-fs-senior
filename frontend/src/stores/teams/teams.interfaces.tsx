@@ -1,7 +1,7 @@
 export interface ITeam {
     id: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
     name: string;
     ownerId: string;
 }

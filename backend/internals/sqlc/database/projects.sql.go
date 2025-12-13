@@ -77,6 +77,27 @@ func (q *Queries) GetProjectById(ctx context.Context, id uuid.UUID) (Project, er
 	return i, err
 }
 
+const getProjectByManager = `-- name: GetProjectByManager :one
+SELECT id, created_at, updated_at, name, team_id, manager_id, status FROM projects
+WHERE manager_id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetProjectByManager(ctx context.Context, managerID uuid.UUID) (Project, error) {
+	row := q.db.QueryRowContext(ctx, getProjectByManager, managerID)
+	var i Project
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.TeamID,
+		&i.ManagerID,
+		&i.Status,
+	)
+	return i, err
+}
+
 const updateProject = `-- name: UpdateProject :one
 UPDATE projects
 SET name = $1, status = $2, updated_at = $3

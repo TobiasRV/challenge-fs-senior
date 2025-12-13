@@ -1,6 +1,6 @@
 import { loginService, signInService } from "@/src/services/apiServices/auth/service";
 import { localStorageKeys } from "@/src/utils/consts";
-import { getLsItem, setLsItem } from "@/src/utils/localStorage";
+import { getLsItem, setLsItem, removeLsItem } from "@/src/utils/localStorage";
 import { HttpStatusCode } from "axios";
 import { create } from "zustand";
 import { ILogInForm, ISignInForm } from "./auth.interfaces";
@@ -55,6 +55,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           user: response.user
         });
         setLsItem(localStorageKeys.IS_LOGGED_IN, true);
+        setLsItem(localStorageKeys.USER, response.user);
       }
       return response.statusCode;
     } catch (error) {
@@ -86,6 +87,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           user: response.user
         });
         setLsItem(localStorageKeys.IS_LOGGED_IN, true);
+        setLsItem(localStorageKeys.USER, response.user);
       }
       return response.statusCode;
     } catch (error) {
@@ -108,5 +110,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     set({
       ...initialState
     })
+    removeLsItem(localStorageKeys.USER);
+    removeLsItem(localStorageKeys.IS_LOGGED_IN);
   }
 }));

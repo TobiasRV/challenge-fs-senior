@@ -14,6 +14,7 @@ type IProjectRepository interface {
 	GetProjects(context.Context, GetProjectsFilters) ([]GetProjectsResponse, error)
 	UpdateProject(context.Context, UpdateProjectData) (models.Project, error)
 	GetProjectById(context.Context, uuid.UUID) (models.Project, error)
+	GetProjectByManager(context.Context, uuid.UUID) (models.Project, error)
 	DeleteProject(context.Context, uuid.UUID) error
 }
 

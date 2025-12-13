@@ -63,6 +63,7 @@ export default function ProjectsDashboard() {
   const [projectFilters, setProjectFilter] = useState<IGetProjectParams>({
     cursor: "",
     limit: 20,
+    withStats: true
   });
 
   useEffect(() => {
@@ -174,6 +175,7 @@ export default function ProjectsDashboard() {
     <main className="min-h-screen bg-gray-50">
       <div>
         <h1 className="p-5 text-4xl font-bold">Bienvenido {user?.username}!</h1>
+        <h2 className="p-5 text-2xl font-bold">Estos son tus projectos:</h2>
       </div>
       {
         <div className="p-5 grid">
@@ -190,7 +192,7 @@ export default function ProjectsDashboard() {
               <div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 p-5">
                   {projects.data?.map((project, key) => (
-                    <Link href={"/"} key={key}>
+                    <Link href={`/tasks-dashboard?projectId=${project.id}`} key={key}>
                       <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
                         <CardContent>
                           <CardTitle className="flex justify-between items-center">

@@ -14,5 +14,10 @@ SELECT * FROM projects
 WHERE id = $1
 LIMIT 1;
 
+-- name: GetProjectByManager :one
+SELECT * FROM projects
+WHERE manager_id = $1
+LIMIT 1;
+
 -- name: DeleteProject :exec
 DELETE FROM projects WHERE id = $1;

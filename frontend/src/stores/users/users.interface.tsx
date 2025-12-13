@@ -6,11 +6,14 @@ export interface IUser {
     email: string;
     role: UserRolesEnum
     teamId?: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface IGetUsersParams {
     email?: string;
     teamId: string;
+    role?: UserRolesEnum;
     limit: number;
     cursor: string;
 }

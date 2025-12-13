@@ -18,15 +18,17 @@ type IUserRepository interface {
 }
 
 type GetUserParams struct {
-	Email  string    `query:"email"`
-	TeamId uuid.UUID `query:"teamId,required, uuid"`
-	Cursor string    `query:"cursor"`
-	Limit  uint64    `query:"limit,required"`
+	Email  string           `query:"email"`
+	TeamId uuid.UUID        `query:"teamId,required, uuid"`
+	Role   models.Userroles `query:"role,oneof=Admin Manager Member"`
+	Cursor string           `query:"cursor"`
+	Limit  uint64           `query:"limit,required"`
 }
 
 type GetUserFilters struct {
 	Email           string
 	TeamId          uuid.UUID
+	Role            models.Userroles
 	Limit           uint64
 	IsFirstPage     bool
 	PointsNext      bool

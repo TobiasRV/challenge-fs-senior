@@ -1,5 +1,4 @@
 const hasLocalStorage = () => typeof window !== "undefined" && typeof window.localStorage !== "undefined" && typeof window.localStorage.getItem === "function";
-const isDev = process.env.NODE_ENV !== "production";
 
 export const setLsItem = (key: string, value: any) => {
     if (!hasLocalStorage()) {

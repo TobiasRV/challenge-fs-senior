@@ -163,7 +163,7 @@ func (h *Handler) GetUsers(c *fiber.Ctx) error {
 
 	userRole := c.Locals("userRole")
 
-	if userRole != "Admin" {
+	if userRole != "Admin" && userRole != "Manager" {
 		return c.Status(fiber.StatusForbidden).JSON(utils.ErrorString("unauthorized"))
 	}
 
@@ -205,6 +205,7 @@ func (h *Handler) GetUsers(c *fiber.Ctx) error {
 		CursorCreatedAt: cursorCreatedAt,
 		CursorId:        cursorId,
 		PointsNext:      pointsNext,
+		Role:            queryParams.Role,
 	})
 
 	if err != nil {

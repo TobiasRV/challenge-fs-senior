@@ -23,7 +23,7 @@ type User struct {
 	Password  string    `json:"-"`
 	Email     string    `json:"email"`
 	Role      Userroles `json:"role"`
-	TeamId    uuid.UUID `json:"team_id"`
+	TeamId    uuid.UUID `json:"teamId"`
 }
 
 func DatabaseUserToUser(dbUser database.User) User {

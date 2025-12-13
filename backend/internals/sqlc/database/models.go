@@ -165,8 +165,7 @@ type Task struct {
 	ID          uuid.UUID
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
-	Name        string
-	ProjectID   uuid.NullUUID
+	ProjectID   uuid.UUID
 	UserID      uuid.NullUUID
 	Status      Taskstatus
 	Title       string

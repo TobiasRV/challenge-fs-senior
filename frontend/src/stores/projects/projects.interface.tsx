@@ -2,8 +2,8 @@ import { ProjectStatusEnum } from "@/src/utils/enums";
 
 export interface IProject {
     id: string,
-    createdAt: Date,
-    updatedAt: Date,
+    createdAt: string,
+    updatedAt: string,
     name: string,
     teamId: string,
     managerId: string,
@@ -19,6 +19,7 @@ export interface IGetProjectParams {
     name?: string;
     limit: number;
     cursor: string;
+    withStats: boolean;
 }
 
 

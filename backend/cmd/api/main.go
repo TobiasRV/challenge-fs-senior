@@ -29,8 +29,9 @@ func main() {
 	rtr := repository.NewRefreshTokenRepository(queries, dbConn)
 	tr := repository.NewTeamsRepository(queries, dbConn)
 	pr := repository.NewProjectRepository(queries, dbConn)
+	tsr := repository.NewTaskRepository(queries, dbConn)
 
-	h := handlers.NewHandler(ur, rtr, tr, pr)
+	h := handlers.NewHandler(ur, rtr, tr, pr, tsr)
 
 	h.Register(r)
 

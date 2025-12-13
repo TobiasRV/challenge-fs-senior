@@ -225,7 +225,7 @@ func (h *Handler) UpdateProject(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(utils.NewValidatorError(err))
 	}
 
-	newProject, err := h.projectRepository.UpdateProject(c.Context(), interfaces.UpdateProjectData{
+	updatedProject, err := h.projectRepository.UpdateProject(c.Context(), interfaces.UpdateProjectData{
 		Name:      payload.Name,
 		Status:    payload.Status,
 		UpdatedAt: time.Now().UTC(),
@@ -235,7 +235,7 @@ func (h *Handler) UpdateProject(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.NewError(err))
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(newProject)
+	return c.Status(fiber.StatusOK).JSON(updatedProject)
 }
 
 func (h *Handler) DeleteProject(c *fiber.Ctx) error {

@@ -40,4 +40,10 @@ func (h *Handler) Register(r *fiber.App) {
 	projectRoutes.Put("/:id", h.UpdateProject)
 	projectRoutes.Delete("/:id", h.DeleteProject)
 
+	taskRoutes := v1.Group("/tasks", jwtMiddleware)
+	taskRoutes.Post("/", h.CreateTask)
+	taskRoutes.Get("/", h.GetTasks)
+	taskRoutes.Put("/:id", h.UpdateTask)
+	taskRoutes.Delete("/:id", h.DeleteTask)
+
 }
