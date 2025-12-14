@@ -3,7 +3,6 @@ package handlers
 import (
 	"database/sql"
 	"errors"
-	"log"
 	"time"
 
 	_ "github.com/TobiasRV/challenge-fs-senior/internals/interfaces"
@@ -66,6 +65,11 @@ func (h *Handler) LogIn(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.NewError(err))
 	}
 
+	err = h.refreshTokenRepository.DeleteRefreshTokensByUserId(c.Context(), existingUser.ID.String())
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(utils.ErrorString("Error deleting old refresh tokens"))
+	}
+
 	err = h.refreshTokenRepository.CreateRefreshToken(c.Context(), models.RefreshToken{
 		ID:        uuid.New(),
 		CreatedAt: time.Now().UTC(),
@@ -74,7 +78,7 @@ func (h *Handler) LogIn(c *fiber.Ctx) error {
 		Token:     refreshToken,
 		Revoked:   false,
 	})
-	log.Printf("error: %v", err)
+
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.ErrorString("Error saving refresh token"))
 	}
@@ -156,7 +160,6 @@ func (h *Handler) RefreshToken(c *fiber.Ctx) error {
 // @Router /auth/logout [delete]
 func (h *Handler) LogOut(c *fiber.Ctx) error {
 	userId := c.Locals("userId").(string)
-	log.Printf("userId: %v", userId)
 	err := h.refreshTokenRepository.DeleteRefreshTokensByUserId(c.Context(), userId)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.ErrorString("Error deleting refresh tokens"))

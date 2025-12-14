@@ -56,7 +56,7 @@ export default function ProjectsDashboard() {
     useState<boolean>(false);
 
   // prettier-ignore
-  const [editProjectData, setUpdateProjectData] = useState<IProject | undefined>(undefined);
+  const [updateProjectData, setUpdateProjectData] = useState<IProject | undefined>(undefined);
   // prettier-ignore
   const [deleteProjectData, setDeleteProjectData] = useState<IProject | undefined>(undefined);
 
@@ -175,7 +175,7 @@ export default function ProjectsDashboard() {
     <main className="min-h-screen bg-gray-50">
       <div>
         <h1 className="p-5 text-4xl font-bold">Bienvenido {user?.username}!</h1>
-        <h2 className="p-5 text-2xl font-bold">Estos son tus projectos:</h2>
+        <h2 className="p-5 text-2xl font-bold">Estos son tus proyectos:</h2>
       </div>
       {
         <div className="p-5 grid">
@@ -183,7 +183,7 @@ export default function ProjectsDashboard() {
             <Input onChange={onSearchChange} placeholder="Busqueda"></Input>
             {user?.role === "Manager" && (
               <Button onClick={() => setShowCreateProjectModal(true)}>
-                Crear projecto
+                Crear proyecto
               </Button>
             )}
           </div>
@@ -271,10 +271,10 @@ export default function ProjectsDashboard() {
         isOpen={showCreateProjectModal}
         handleClose={handleCreateProject}
       />
-      {editProjectData && (
+      {updateProjectData && (
         <EditProjectModal
-          isOpen={!!editProjectData}
-          project={editProjectData}
+          isOpen={!!updateProjectData}
+          project={updateProjectData}
           handleClose={handleEditProject}
         />
       )}

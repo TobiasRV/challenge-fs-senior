@@ -85,7 +85,7 @@ export default function CreateTaskModal({
       "Error al crear tarea. Por favor intente nuevamente.",
     [HttpStatusCode.BadRequest]: "Datos incorrectos.",
     // Generic responses for edge case errors that should not happend but could happend
-    [HttpStatusCode.NotFound]: "Projecto no valido",
+    [HttpStatusCode.NotFound]: "Proyecto no valido",
     [HttpStatusCode.Forbidden]: "Error al crear tarea.",
     [HttpStatusCode.Unauthorized]: "Error al crear tarea.",
   };

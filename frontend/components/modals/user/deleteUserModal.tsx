@@ -69,7 +69,7 @@ export default function DeleteUserModal({
 
   const mapRoleWarning: MapRoleMessage = {
     [UserRolesEnum.MANAGER]:
-      "Al eliminar un manager todos los projectos asociados a este seran eliminados.",
+      "Al eliminar un manager todos los proyectos asociados a este seran eliminados.",
     [UserRolesEnum.MEMBER]: "Al eliminar un miembro todas sus tareas quedaran sin asignar",
   };
 

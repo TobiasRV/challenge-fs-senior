@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"log"
 	"strings"
 
 	sq "github.com/Masterminds/squirrel"
@@ -39,7 +38,6 @@ func (pr *ProjectRepository) CreateProject(c context.Context, data database.Crea
 func (pr *ProjectRepository) GetProjects(c context.Context, filters interfaces.GetProjectsFilters) ([]interfaces.GetProjectsResponse, error) {
 
 	var sql sq.SelectBuilder
-	log.Println(filters.WithStats)
 	if filters.WithStats {
 		sql = sq.StatementBuilder.PlaceholderFormat(sq.Dollar).Select(
 			"p.id",

@@ -70,14 +70,14 @@ export default function DeleteProjectModal({
     <div>
       <Dialog.Root open={isOpen} modal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-        <Dialog.Title className="hidden">Eliminar projecto</Dialog.Title>
+        <Dialog.Title className="hidden">Eliminar proyecto</Dialog.Title>
         <Dialog.Content className="fixed inset-0 flex items-center justify-center p-4">
           <div className="w-full max-w-md rounded-md bg-white p-6 sm:p-8 text-gray-900 shadow max-h-[calc(100vh-16px)] sm:max-h-[calc(100vh-32px)] overflow-auto">
-            <h2 className="text-xl">Eliminar projecto</h2>
+            <h2 className="text-xl">Eliminar proyecto</h2>
 
             <Alert className="mt-5 w-full" variant="warning">
               <AlertTitle className="font-normal">
-                Al eliminar el projecto todas sus tareas seran eliminadas
+                Al eliminar el proyecto todas sus tareas seran eliminadas
               </AlertTitle>
             </Alert>
 
@@ -98,7 +98,7 @@ export default function DeleteProjectModal({
                 Cancelar
               </Button>
               <Button disabled={loading} onClick={() => onSubmit()}>
-                Eliminar Projecto
+                Eliminar Proyecto
               </Button>
             </div>
           </div>

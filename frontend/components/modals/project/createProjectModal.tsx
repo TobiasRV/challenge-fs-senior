@@ -71,20 +71,20 @@ export default function CreateProjectModal({isOpen, handleClose}: CreateProjectM
 
 const mapErrorMessage: MapErrorMessage = {
     [HttpStatusCode.InternalServerError]:
-        "Error al crear projecto. Por favor intente nuevamente.",
+        "Error al crear proyecto. Por favor intente nuevamente.",
     [HttpStatusCode.BadRequest]: "Datos incorrectos.",
     // Generic responses for edge case errors that should not happend but could happend
-    [HttpStatusCode.Forbidden]: "Error al crear projecto.",
-    [HttpStatusCode.Unauthorized]: "Error al crear projecto.",
+    [HttpStatusCode.Forbidden]: "Error al crear proyecto.",
+    [HttpStatusCode.Unauthorized]: "Error al crear proyecto.",
 };
 
   return (
     <div>
       <Dialog.Root open={isOpen} modal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-        <Dialog.Title className="hidden">Crear nuevo projecto</Dialog.Title>
+        <Dialog.Title className="hidden">Crear nuevo proyecto</Dialog.Title>
         <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md min-w-md rounded-md bg-white p-8 text-gray-900 shadow">
-          <h2 className="text-xl">Crear nuevo projecto</h2>
+          <h2 className="text-xl">Crear nuevo proyecto</h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-5">

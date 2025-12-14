@@ -12,4 +12,4 @@ ALTER TABLE users
     ADD CONSTRAINT fk_users_teams
     FOREIGN KEY (team_id) REFERENCES teams(id);
 -- +goose Down
-DROP TABLE teams;
+DROP TABLE teams CASCADE;

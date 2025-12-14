@@ -199,7 +199,7 @@ export default function TasksDashboard() {
                           {`Responsable: ${task.userName}`}
                         </p>)}
                           <p className="mt-5">
-                          {`Projecto: ${task.projectName}`}
+                          {`Proyecto: ${task.projectName}`}
                         </p>
                       </CardContent>
                     </Card>
