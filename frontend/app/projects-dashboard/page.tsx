@@ -60,6 +60,12 @@ export default function ProjectsDashboard() {
   // prettier-ignore
   const [deleteProjectData, setDeleteProjectData] = useState<IProject | undefined>(undefined);
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const [projectFilters, setProjectFilter] = useState<IGetProjectParams>({
     cursor: "",
     limit: 20,
@@ -171,6 +177,10 @@ export default function ProjectsDashboard() {
     setDeleteProjectData(undefined);
   };
 
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <main className="min-h-screen bg-gray-50">
       <div>
@@ -195,12 +205,15 @@ export default function ProjectsDashboard() {
                     <Link href={`/tasks-dashboard?projectId=${project.id}`} key={key}>
                       <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
                         <CardContent>
-                          <CardTitle className="flex justify-between items-center">
-                            {project.name}
+                          <CardTitle className="flex justify-between items-center gap-2">
+                            <span title={project.name}>
+                              {project.name}
+                            </span>
                             {user?.role === UserRolesEnum.MANAGER && (
-                              <div>
+                              <div className="flex-shrink-0 flex">
                                 <Button
                                   variant={"ghost"}
+                                  size="icon"
                                   onClick={(
                                     e: React.MouseEvent<HTMLButtonElement>
                                   ) => {
@@ -213,6 +226,7 @@ export default function ProjectsDashboard() {
                                 </Button>
                                 <Button
                                   variant={"ghost"}
+                                  size="icon"
                                   onClick={(
                                     e: React.MouseEvent<HTMLButtonElement>
                                   ) => {

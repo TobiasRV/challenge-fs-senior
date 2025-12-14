@@ -75,32 +75,32 @@ export default function SignInPage() {
   }, [error, authStatusCode]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="container mx-auto mt-10 px-4 py-6 sm:py-8 flex justify-center border size-100 md:size-1/2">
-        <div className="mb-6 sm:mb-8 w-100">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-8 sm:py-12">
+      <main className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-white rounded-lg shadow-md p-6 sm:p-8 lg:p-10">
+        <div className="w-full">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">
             Registro
           </h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mt-6">
-              <Label>Usuario</Label>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+            <div>
+              <Label className="text-sm sm:text-base font-medium">Usuario</Label>
               <Input
-                className="mt-2"
+                className="mt-1.5 sm:mt-2 w-full"
                 {...register("username", {
                   required: { value: true, message: "El usuario es requerido" },
                 })}
               />
               {errors.username ? (
-                <p className="text-red-500 text-xs mt-2">
+                <p className="text-red-500 text-xs sm:text-sm mt-1.5">
                   {errors.username.message}
                 </p>
               ) : null}
             </div>
-            <div className="mt-6">
-              <Label>Contraseña</Label>
+            <div>
+              <Label className="text-sm sm:text-base font-medium">Contraseña</Label>
               <Input
                 type="password"
-                className="mt-2"
+                className="mt-1.5 sm:mt-2 w-full"
                 {...register("password", {
                   required: {
                     value: true,
@@ -109,15 +109,15 @@ export default function SignInPage() {
                 })}
               />
               {errors.password ? (
-                <p className="text-red-500 text-xs mt-2">
+                <p className="text-red-500 text-xs sm:text-sm mt-1.5">
                   {errors.password.message}
                 </p>
               ) : null}
             </div>
-            <div className="mt-6">
-              <Label>Email</Label>
+            <div>
+              <Label className="text-sm sm:text-base font-medium">Email</Label>
               <Input
-                className="mt-2"
+                className="mt-1.5 sm:mt-2 w-full"
                 {...register("email", {
                   required: true,
                   validate: {
@@ -149,22 +149,23 @@ export default function SignInPage() {
                 })}
               />
               {errors.email ? (
-                <p className="text-red-500 text-xs mt-2">
+                <p className="text-red-500 text-xs sm:text-sm mt-1.5">
                   {errors.email.message}
                 </p>
               ) : null}
             </div>
 
             {error && authStatusCode && (
-              <Alert className="mt-5 w-100" variant="error">
-                <AlertTitle className="font-normal">
+              <Alert className="w-full" variant="error">
+                <AlertTitle className="font-normal text-sm sm:text-base">
                   {mapErrorMessage[authStatusCode]}
                 </AlertTitle>
               </Alert>
             )}
 
-            <div className="mt-6">
+            <div className="pt-2">
               <Button
+                className="w-full sm:w-auto"
                 disabled={userLoading || Object.keys(errors).length !== 0}
               >
                 Registrarse

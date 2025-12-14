@@ -37,7 +37,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     (typeof window !== "undefined" && getLsItem(localStorageKeys.USER)) ||
     initialState.user,
   isLoggedIn:
-    getLsItem(localStorageKeys.IS_LOGGED_IN) || initialState.isLoggedIn,
+    (typeof window !== "undefined" && getLsItem(localStorageKeys.IS_LOGGED_IN)) ||
+    initialState.isLoggedIn,
   logIn: async (payload: ILogInForm): Promise<number> => {
     try {
       set({ loading: true });

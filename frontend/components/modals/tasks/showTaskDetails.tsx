@@ -23,41 +23,41 @@ export default function ShowTaskDetails({
     <Dialog.Root open={isOpen} modal>
       <Dialog.Overlay className="fixed inset-0 bg-black/50" />
       <Dialog.Title className="hidden">Detalles de Tarea</Dialog.Title>
-      <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-lg min-w-md rounded-md bg-white p-8 text-gray-900 shadow">
-        <h2 className="text-xl font-semibold mb-6">Detalles de la Tarea</h2>
+      <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-lg rounded-md bg-white p-4 sm:p-6 md:p-8 text-gray-900 shadow max-h-[90vh] overflow-y-auto">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Detalles de la Tarea</h2>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <div>
-            <p className="text-sm font-medium text-gray-500">Título</p>
-            <p className="text-base mt-1">{task.title}</p>
+            <p className="text-xs sm:text-sm font-medium text-gray-500">Título</p>
+            <p className="text-sm sm:text-base mt-1 break-words">{task.title}</p>
           </div>
 
           <div>
-            <p className="text-sm font-medium text-gray-500">Descripción</p>
-            <p className="text-base mt-1">
+            <p className="text-xs sm:text-sm font-medium text-gray-500">Descripción</p>
+            <p className="text-sm sm:text-base mt-1 break-words">
               {task.description || "Sin descripción"}
             </p>
           </div>
 
           <div>
-            <p className="text-sm font-medium text-gray-500">Estado</p>
+            <p className="text-xs sm:text-sm font-medium text-gray-500">Estado</p>
             <div className="mt-1">
                 {TasksStatusTranslation[task.status]}
             </div>
           </div>
 
           <div>
-            <p className="text-sm font-medium text-gray-500">Proyecto</p>
-            <p className="text-base mt-1">{task.projectName}</p>
+            <p className="text-xs sm:text-sm font-medium text-gray-500">Proyecto</p>
+            <p className="text-sm sm:text-base mt-1 break-words">{task.projectName}</p>
           </div>
 
           <div>
-            <p className="text-sm font-medium text-gray-500">Usuario Asignado</p>
-            <p className="text-base mt-1">{task.userName || "Sin asignar"}</p>
+            <p className="text-xs sm:text-sm font-medium text-gray-500">Usuario Asignado</p>
+            <p className="text-sm sm:text-base mt-1">{task.userName || "Sin asignar"}</p>
           </div>
         </div>
 
-        <div className="mt-8 flex justify-end">
+        <div className="mt-6 sm:mt-8 flex justify-end">
           <Button type="button" variant="outline" onClick={handleClose}>
             Cerrar
           </Button>

@@ -102,8 +102,8 @@ const mapErrorMessage: MapErrorMessage = {
       <Dialog.Root open={isOpen} modal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
         <Dialog.Title className="hidden">Editar proyecto</Dialog.Title>
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md min-w-md rounded-md bg-white p-8 text-gray-900 shadow">
-          <h2 className="text-xl">Editar proyecto</h2>
+        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-md rounded-md bg-white p-4 sm:p-8 text-gray-900 shadow max-h-[90vh] overflow-y-auto">
+          <h2 className="text-lg sm:text-xl">Editar proyecto</h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-5">
@@ -207,13 +207,14 @@ const mapErrorMessage: MapErrorMessage = {
                 )}
               />
             </div>
-            <div className="flex end justify-end gap-3 mt-10">
-                <Button type="button" variant="ghost" onClick={() => close(false)}>
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-8 sm:mt-10">
+                <Button type="button" variant="ghost" onClick={() => close(false)} className="w-full sm:w-auto">
                   Cancelar
                 </Button>
                 <Button
                   disabled={loading || Object.keys(errors).length !== 0 || !isDirty}
                   type="submit"
+                  className="w-full sm:w-auto"
                 >
                   Editar proyecto
                 </Button>

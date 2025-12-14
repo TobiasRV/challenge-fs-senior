@@ -84,17 +84,17 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen p-10 bg-gray-100">
-      <main className="container mx-auto mt-10 px-4 py-4 md:py-6 flex justify-center border size-100 md:size-1/2 bg-[#FFFFFF]">
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+    <div className="min-h-screen p-4 sm:p-6 md:p-10 bg-gray-100 flex items-center justify-center">
+      <main className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-10 bg-white rounded-lg shadow-md">
+        <div className="w-full">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">
             Log In
           </h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mt-6">
-              <Label>Email</Label>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+            <div>
+              <Label className="text-sm sm:text-base">Email</Label>
               <Input
-                className="mt-2"
+                className="mt-1 sm:mt-2 w-full"
                 {...register("email", {
                   required: { value: true, message: "El email es requerido"},
                   validate: {
@@ -109,40 +109,45 @@ export default function LoginPage() {
                 })}
               />
               {errors.email ? (
-                <p className="text-red-500 text-xs mt-2">
+                <p className="text-red-500 text-xs sm:text-sm mt-1 sm:mt-2">
                   {errors.email.message}
                 </p>
               ) : null}
             </div>
-            <div className="mt-6">
-              <Label>Contraseña</Label>
+            <div>
+              <Label className="text-sm sm:text-base">Contraseña</Label>
               <Input
                 type="password"
-                className="mt-2"
+                className="mt-1 sm:mt-2 w-full"
                 {...register("password", {
                   required: { value: true, message: "La contraseña es requerida"},
                 })}
               />
               {errors.password ? (
-                <p className="text-red-500 text-xs mt-2">
+                <p className="text-red-500 text-xs sm:text-sm mt-1 sm:mt-2">
                   {errors.password.message}
                 </p>
               ) : null}
             </div>
-            <div className="mt-3">
-              <Button className="p-0" variant="link" onClick={redirectToSignIn}>
-                <p className="underline">Registrarse</p>
+            <div className="pt-1">
+              <Button className="p-0" variant="link" onClick={redirectToSignIn} type="button">
+                <p className="underline text-sm sm:text-base">Registrarse</p>
               </Button>
             </div>
             {alert && (
-              <Alert className="mt-5" variant={alert.type}>
-                <AlertTitle className="font-normal">
+              <Alert className="mt-3 sm:mt-5" variant={alert.type}>
+                <AlertTitle className="font-normal text-sm sm:text-base">
                   {alert.message}
                 </AlertTitle>
               </Alert>
             )}
-            <div className="mt-6">
-              <Button disabled={Object.keys(errors).length !== 0}>Iniciar Sesion</Button>
+            <div className="pt-2 sm:pt-4">
+              <Button 
+                className="w-full sm:w-auto" 
+                disabled={Object.keys(errors).length !== 0}
+              >
+                Iniciar Sesion
+              </Button>
             </div>
           </form>
         </div>

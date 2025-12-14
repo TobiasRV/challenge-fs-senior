@@ -95,8 +95,8 @@ export default function CreateTaskModal({
       <Dialog.Root open={isOpen} modal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
         <Dialog.Title className="hidden">Crear nuevaTarea</Dialog.Title>
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md min-w-md rounded-md bg-white p-8 text-gray-900 shadow">
-          <h2 className="text-xl">Crear nueva tarea</h2>
+        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-md rounded-md bg-white p-4 sm:p-6 md:p-8 text-gray-900 shadow max-h-[90vh] overflow-y-auto">
+          <h2 className="text-lg sm:text-xl">Crear nueva tarea</h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-5">
@@ -153,11 +153,11 @@ export default function CreateTaskModal({
               </Alert>
             )}
 
-            <div className="flex end justify-end gap-3 mt-5">
-              <Button type="button" variant="ghost" onClick={() => close(false)}>
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-5">
+              <Button type="button" variant="ghost" onClick={() => close(false)} className="w-full sm:w-auto">
                 Cancelar
               </Button>
-              <Button type="submit">Crear tarea</Button>
+              <Button type="submit" className="w-full sm:w-auto">Crear tarea</Button>
             </div>
           </form>
         </Dialog.Content>

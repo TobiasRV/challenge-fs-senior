@@ -161,10 +161,10 @@ export default function TasksDashboard() {
                       onClick={() => setSelectedTask(task)}
                     >
                       <CardContent>
-                        <CardTitle className="flex justify-between items-center">
-                          {task.title}
+                        <CardTitle className="flex justify-between items-center gap-2 min-w-0">
+                          <span title={task.title}>{task.title}</span>
                           {user?.role === UserRolesEnum.MANAGER && (
-                            <div>
+                            <div className="flex-shrink-0 flex">
                               <Button
                                 variant={"ghost"}
                                 onClick={(

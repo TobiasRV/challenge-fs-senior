@@ -83,11 +83,11 @@ const mapErrorMessage: MapErrorMessage = {
       <Dialog.Root open={isOpen} modal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
         <Dialog.Title className="hidden">Crear nuevo proyecto</Dialog.Title>
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md min-w-md rounded-md bg-white p-8 text-gray-900 shadow">
-          <h2 className="text-xl">Crear nuevo proyecto</h2>
+        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-md rounded-md bg-white p-4 sm:p-6 md:p-8 text-gray-900 shadow max-h-[90vh] overflow-y-auto">
+          <h2 className="text-lg sm:text-xl">Crear nuevo proyecto</h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mt-5">
+            <div className="mt-4 sm:mt-5">
               <Label>Nombre</Label>
               <Input
                 className="mt-2"
@@ -102,16 +102,16 @@ const mapErrorMessage: MapErrorMessage = {
               ) : null}
 
               {(error && statusCode) && (
-              <Alert className="mt-5" variant="error">
-                <AlertTitle className="font-normal">
+              <Alert className="mt-4 sm:mt-5" variant="error">
+                <AlertTitle className="font-normal text-sm sm:text-base">
                   {mapErrorMessage[statusCode]}
                 </AlertTitle>
               </Alert>
             )}
 
-              <div className="flex end justify-end gap-3 mt-5">
-                <Button variant="ghost" onClick={() => close(false)}>Cancelar</Button>
-                <Button type="submit">Confirmar</Button>
+              <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 mt-4 sm:mt-5">
+                <Button variant="ghost" onClick={() => close(false)} className="w-full sm:w-auto">Cancelar</Button>
+                <Button type="submit" className="w-full sm:w-auto">Confirmar</Button>
               </div>
             </div>
           </form>
