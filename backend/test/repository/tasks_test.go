@@ -42,7 +42,7 @@ func TestTaskRepository_CreateTask(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "project_id", "user_id", "status", "title", "description"}).
 					AddRow(taskId, now, now, projectId, nil, "ToDo", "Test Task", "Task description")
-				// SQL: INSERT INTO tasks (created_at, updated_at, project_id, title, description, user_id)
+
 				mock.ExpectQuery(regexp.QuoteMeta("INSERT INTO tasks")).
 					WithArgs(now, now, projectId, "Test Task", sql.NullString{String: "Task description", Valid: true}, uuid.NullUUID{}).
 					WillReturnRows(rows)
@@ -64,7 +64,7 @@ func TestTaskRepository_CreateTask(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "project_id", "user_id", "status", "title", "description"}).
 					AddRow(taskId, now, now, projectId, userId, "ToDo", "Assigned Task", "Assigned task")
-				// SQL: INSERT INTO tasks (created_at, updated_at, project_id, title, description, user_id)
+
 				mock.ExpectQuery(regexp.QuoteMeta("INSERT INTO tasks")).
 					WithArgs(now, now, projectId, "Assigned Task", sql.NullString{String: "Assigned task", Valid: true}, uuid.NullUUID{UUID: userId, Valid: true}).
 					WillReturnRows(rows)
@@ -362,7 +362,7 @@ func TestTaskRepository_UpdateTask(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "project_id", "user_id", "status", "title", "description"}).
 					AddRow(taskId, now, now, projectId, userId, "InProgress", "Updated Task", "Updated description")
-				// SQL: SET title = $1, description=$2 ,user_id=$3, status = $4, updated_at = $5 WHERE id = $6
+
 				mock.ExpectQuery(regexp.QuoteMeta("UPDATE tasks")).
 					WithArgs("Updated Task", sql.NullString{String: "Updated description", Valid: true}, uuid.NullUUID{}, database.TaskstatusInProgress, now, taskId).
 					WillReturnRows(rows)
@@ -382,7 +382,7 @@ func TestTaskRepository_UpdateTask(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "project_id", "user_id", "status", "title", "description"}).
 					AddRow(taskId, now, now, projectId, userId, "Done", "Completed Task", nil)
-				// SQL: SET title = $1, description=$2 ,user_id=$3, status = $4, updated_at = $5 WHERE id = $6
+
 				mock.ExpectQuery(regexp.QuoteMeta("UPDATE tasks")).
 					WithArgs("Completed Task", sql.NullString{}, uuid.NullUUID{}, database.TaskstatusDone, now, taskId).
 					WillReturnRows(rows)
@@ -403,7 +403,7 @@ func TestTaskRepository_UpdateTask(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "project_id", "user_id", "status", "title", "description"}).
 					AddRow(taskId, now, now, projectId, userId, "ToDo", "Assigned Task", nil)
-				// SQL: SET title = $1, description=$2 ,user_id=$3, status = $4, updated_at = $5 WHERE id = $6
+
 				mock.ExpectQuery(regexp.QuoteMeta("UPDATE tasks")).
 					WithArgs("Assigned Task", sql.NullString{}, uuid.NullUUID{UUID: userId, Valid: true}, database.TaskstatusToDo, now, taskId).
 					WillReturnRows(rows)
@@ -421,7 +421,7 @@ func TestTaskRepository_UpdateTask(t *testing.T) {
 				UpdatedAt: now,
 			},
 			mockSetup: func(mock sqlmock.Sqlmock) {
-				// SQL: SET title = $1, description=$2 ,user_id=$3, status = $4, updated_at = $5 WHERE id = $6
+
 				mock.ExpectQuery(regexp.QuoteMeta("UPDATE tasks")).
 					WithArgs("Updated Task", sql.NullString{}, uuid.NullUUID{}, database.TaskstatusInProgress, now, taskId).
 					WillReturnError(sql.ErrNoRows)
@@ -437,7 +437,7 @@ func TestTaskRepository_UpdateTask(t *testing.T) {
 				UpdatedAt: now,
 			},
 			mockSetup: func(mock sqlmock.Sqlmock) {
-				// SQL: SET title = $1, description=$2 ,user_id=$3, status = $4, updated_at = $5 WHERE id = $6
+
 				mock.ExpectQuery(regexp.QuoteMeta("UPDATE tasks")).
 					WithArgs("Updated Task", sql.NullString{}, uuid.NullUUID{}, database.TaskstatusInProgress, now, taskId).
 					WillReturnError(sql.ErrConnDone)

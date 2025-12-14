@@ -342,7 +342,7 @@ func TestHandler_UpdateTask(t *testing.T) {
 				"status": "InProgress",
 			},
 			setupMocks:     func(mockTaskRepo *mocks.MockTaskRepository) {},
-			expectedStatus: fiber.StatusNotFound, // Empty path param results in 404 route not found
+			expectedStatus: fiber.StatusNotFound,
 		},
 		{
 			name:     "Task not found",
@@ -363,9 +363,7 @@ func TestHandler_UpdateTask(t *testing.T) {
 			userRole:    "Manager",
 			userId:      userId.String(),
 			taskId:      taskId.String(),
-			requestBody: map[string]interface{}{
-				// Missing title and status
-			},
+			requestBody: map[string]interface{}{},
 			setupMocks: func(mockTaskRepo *mocks.MockTaskRepository) {
 				mockTaskRepo.On("GetTaskById", mock.Anything, taskId).Return(models.Task{
 					ID:        taskId,
@@ -518,7 +516,7 @@ func TestHandler_DeleteTask(t *testing.T) {
 			userId:         userId.String(),
 			taskId:         "",
 			setupMocks:     func(mockTaskRepo *mocks.MockTaskRepository) {},
-			expectedStatus: fiber.StatusNotFound, // Empty path param results in 404 route not found
+			expectedStatus: fiber.StatusNotFound,
 		},
 		{
 			name:     "Successfully delete task",

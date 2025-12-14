@@ -39,7 +39,6 @@ func TestHandler_CreateTeam(t *testing.T) {
 				"name": "Test Team",
 			},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockTeamRepo *mocks.MockTeamRepository) {
-				// No mocks needed - should fail authorization
 			},
 			expectedStatus: fiber.StatusForbidden,
 		},
@@ -47,11 +46,8 @@ func TestHandler_CreateTeam(t *testing.T) {
 			name:        "Missing name field",
 			userRole:    "Admin",
 			userId:      userId.String(),
-			requestBody: map[string]interface{}{
-				// name is missing
-			},
+			requestBody: map[string]interface{}{},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockTeamRepo *mocks.MockTeamRepository) {
-				// No mocks needed - should fail validation
 			},
 			expectedStatus: fiber.StatusBadRequest,
 		},
@@ -167,7 +163,6 @@ func TestHandler_GetTeamByOwner(t *testing.T) {
 			userRole: "Member",
 			userId:   userId.String(),
 			setupMocks: func(mockTeamRepo *mocks.MockTeamRepository) {
-				// No mocks needed - should fail authorization
 			},
 			expectedStatus: fiber.StatusForbidden,
 		},

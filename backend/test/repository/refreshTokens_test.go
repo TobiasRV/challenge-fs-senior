@@ -74,7 +74,7 @@ func TestRefreshTokenRepository_CreateRefreshToken(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				mock.ExpectExec(regexp.QuoteMeta("INSERT INTO refresh_tokens")).
 					WithArgs(tokenId, userId, "duplicate-token", expiresAt, now, false).
-					WillReturnError(sql.ErrNoRows) // simulating constraint error
+					WillReturnError(sql.ErrNoRows)
 			},
 			expectError: true,
 		},
@@ -224,7 +224,7 @@ func TestRefreshTokenRepository_DeleteRefreshTokensByUserId(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				mock.ExpectExec(regexp.QuoteMeta("DELETE FROM refresh_tokens")).
 					WithArgs(userId).
-					WillReturnResult(sqlmock.NewResult(0, 3)) // Assume 3 tokens deleted
+					WillReturnResult(sqlmock.NewResult(0, 3))
 			},
 			expectError: false,
 		},
@@ -234,7 +234,7 @@ func TestRefreshTokenRepository_DeleteRefreshTokensByUserId(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				mock.ExpectExec(regexp.QuoteMeta("DELETE FROM refresh_tokens")).
 					WithArgs(userId).
-					WillReturnResult(sqlmock.NewResult(0, 0)) // No tokens deleted
+					WillReturnResult(sqlmock.NewResult(0, 0))
 			},
 			expectError: false,
 		},

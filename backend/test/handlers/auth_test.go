@@ -40,7 +40,6 @@ func TestHandler_LogIn(t *testing.T) {
 				"password": "password123",
 			},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockRefreshTokenRepo *mocks.MockRefreshTokenRepository) {
-				// No mocks needed for validation failure
 			},
 			expectedStatus: fiber.StatusBadRequest,
 		},
@@ -50,7 +49,6 @@ func TestHandler_LogIn(t *testing.T) {
 				"email": "test@example.com",
 			},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockRefreshTokenRepo *mocks.MockRefreshTokenRepository) {
-				// No mocks needed for validation failure
 			},
 			expectedStatus: fiber.StatusBadRequest,
 		},

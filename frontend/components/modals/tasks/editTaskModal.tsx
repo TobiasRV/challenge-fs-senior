@@ -92,7 +92,6 @@ export default function EditTaskModal({
   }, [error, statusCode]);
 
   const onSubmit = async (data: Inputs) => {
-    console.log({ task })
     const response = await updateTask({
       ...data,
       id: task.id,

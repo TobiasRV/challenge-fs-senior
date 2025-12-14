@@ -41,7 +41,6 @@ func TestHandler_CreateProject(t *testing.T) {
 				"name": "Test Project",
 			},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockProjectRepo *mocks.MockProjectRepository) {
-				// No mocks needed - should fail authorization
 			},
 			expectedStatus: fiber.StatusForbidden,
 		},
@@ -53,7 +52,6 @@ func TestHandler_CreateProject(t *testing.T) {
 				"name": "Test Project",
 			},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockProjectRepo *mocks.MockProjectRepository) {
-				// No mocks needed - should fail authorization
 			},
 			expectedStatus: fiber.StatusForbidden,
 		},
@@ -61,11 +59,8 @@ func TestHandler_CreateProject(t *testing.T) {
 			name:        "Missing name field",
 			userRole:    "Manager",
 			userId:      userId.String(),
-			requestBody: map[string]interface{}{
-				// name is missing
-			},
+			requestBody: map[string]interface{}{},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockProjectRepo *mocks.MockProjectRepository) {
-				// No mocks needed - should fail validation
 			},
 			expectedStatus: fiber.StatusBadRequest,
 		},

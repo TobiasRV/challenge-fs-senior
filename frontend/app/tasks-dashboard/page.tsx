@@ -61,8 +61,6 @@ export default function TasksDashboard() {
       return;
     }
 
-    console.log({ user });
-
     // If the user is an admin or manager it should have the project id as a query param
     if (user.role !== "Member" && !projectId) {
       router.replace("/");

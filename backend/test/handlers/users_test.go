@@ -35,7 +35,6 @@ func TestHandler_CreateUserAdmin(t *testing.T) {
 				"email":    "test@example.com",
 			},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockRefreshTokenRepo *mocks.MockRefreshTokenRepository) {
-				// No mocks needed for validation failure
 			},
 			expectedStatus: fiber.StatusBadRequest,
 		},
@@ -46,7 +45,6 @@ func TestHandler_CreateUserAdmin(t *testing.T) {
 				"email":    "test@example.com",
 			},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockRefreshTokenRepo *mocks.MockRefreshTokenRepository) {
-				// No mocks needed for validation failure
 			},
 			expectedStatus: fiber.StatusBadRequest,
 		},
@@ -57,7 +55,6 @@ func TestHandler_CreateUserAdmin(t *testing.T) {
 				"password": "password123",
 			},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockRefreshTokenRepo *mocks.MockRefreshTokenRepository) {
-				// No mocks needed for validation failure
 			},
 			expectedStatus: fiber.StatusBadRequest,
 		},
@@ -69,7 +66,6 @@ func TestHandler_CreateUserAdmin(t *testing.T) {
 				"email":    "invalid-email",
 			},
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository, mockRefreshTokenRepo *mocks.MockRefreshTokenRepository) {
-				// No mocks needed for validation failure
 			},
 			expectedStatus: fiber.StatusBadRequest,
 		},
@@ -155,7 +151,6 @@ func TestHandler_UserExistsByEmail(t *testing.T) {
 			name:  "Missing email parameter",
 			email: "",
 			setupMocks: func(mockUserRepo *mocks.MockUserRepository) {
-				// No mocks needed
 			},
 			expectedStatus: fiber.StatusBadRequest,
 		},
