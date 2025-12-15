@@ -146,7 +146,7 @@ Member Account:
 ## Known Issues & Limitations
 
 ## Folder structure changes
-- The database migrations/seeds are inside the backend/internal/sql folder instead of in a separate folder like the documentation because is used by the backend for the queryies using sqlc.
+- The database migrations/seeds are inside the backend/internal/sql folder instead of in a separate folder like the documentation because is used by the backend for the queries using sqlc.
 
 ## Software limitations
 
