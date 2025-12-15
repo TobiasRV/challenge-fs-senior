@@ -15,10 +15,18 @@ import useDebounced from "@/src/utils/hooks/debounce";
 import { TasksStatusTranslation } from "@/src/utils/translations";
 import { ArrowLeft, Pencil, Trash } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useShallow } from "zustand/shallow";
 
 export default function TasksDashboard() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 p-5">Cargando...</div>}>
+      <TasksDashboardContent />
+    </Suspense>
+  );
+}
+
+function TasksDashboardContent() {
   const { user, isLoggedIn } = useAuthStore(
     useShallow((state) => ({
       user: state.user,

@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: challenge-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-challenge_db}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    env_file:
+      - ./.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - challenge-network
+
+  db-init:
+    image: postgres:16-alpine
+    restart: "no"
+    depends_on:
+      - postgres
+    command: >
+      /bin/bash -c "
+      until pg_isready -h postgres -U ${POSTGRES_USER:-postgres}; do
+        echo 'Waiting for database to be ready...';
+        sleep 2;
+      done;
+      psql -h postgres -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-challenge_db} -f /init/create_database.sql;
+      "
+    volumes:
+      - ./create_database.sql:/init/create_database.sql
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    networks:
+      - challenge-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: challenge-backend
+    environment:
+      SERVER_PORT: ${SERVER_PORT:-8080}
+      DB_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-challenge_db}?sslmode=disable
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      ENVIRONMENT: ${ENVIRONMENT:-dev}
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - challenge-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: challenge-frontend
+    environment:
+      NEXT_PUBLIC_BASE_URL_API: ${NEXT_PUBLIC_BASE_URL_API:-http://backend:8080/api/v1}
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - challenge-network
+    restart: unless-stopped
+
+networks:
+  challenge-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
