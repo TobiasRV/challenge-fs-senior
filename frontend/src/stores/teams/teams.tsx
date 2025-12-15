@@ -79,9 +79,7 @@ export const useTeamStore = create<TeamsStore>((set, get) => ({
   createTeam: async (payload: ICreateTeam): Promise<number> => {
     try {
       set({ loading: true });
-      console.log("ENTRE")
       const response = await createTeamService(payload);
-      console.log({ response });
       if (response?.error) {
         set({
           error: true,

@@ -56,7 +56,6 @@ export default function CreateTeamModal({isOpen, handleClose}: CreateTeamModalPr
   }, [error, statusCode]);
 
   const onSubmit = async (data: Inputs) => {
-    console.log("onSubmit called with data:", data);
     const response = await createTeam(data);
     if (response === HttpStatusCode.Created) {
         close()
@@ -89,14 +88,7 @@ const mapErrorMessage: MapErrorMessage = {
         >
           <h2 className="text-xl">Ponle nombre a tu equipo!</h2>
 
-          <form onSubmit={(e) => {
-            console.log("Form submit event triggered");
-            e.preventDefault();
-            e.stopPropagation();
-            handleSubmit(onSubmit, (errors) => {
-              console.log("Form validation errors:", errors);
-            })(e);
-          }}>
+           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-5">
               <Label>Nombre</Label>
               <Input
