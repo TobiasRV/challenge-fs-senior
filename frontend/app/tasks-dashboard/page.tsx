@@ -13,7 +13,7 @@ import { IGetTasksParams, ITask } from "@/src/stores/tasks/tasks.interface";
 import { UserRolesEnum } from "@/src/utils/enums";
 import useDebounced from "@/src/utils/hooks/debounce";
 import { TasksStatusTranslation } from "@/src/utils/translations";
-import { Pencil, Trash } from "lucide-react";
+import { ArrowLeft, Pencil, Trash } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useShallow } from "zustand/shallow";
@@ -42,13 +42,17 @@ export default function TasksDashboard() {
   const [showCreateTaskModal, setShowCreateTaskModal] =
     useState<boolean>(false);
 
-   const [updateTaskData, setUpdateTaskData] =
-    useState<ITask | undefined>(undefined);
+  const [updateTaskData, setUpdateTaskData] = useState<ITask | undefined>(
+    undefined
+  );
 
-  const [deleteTaskData, setDeleteTaskData] =
-    useState<ITask | undefined>(undefined);
+  const [deleteTaskData, setDeleteTaskData] = useState<ITask | undefined>(
+    undefined
+  );
 
-  const [selectedTask, setSelectedTask] = useState<ITask | undefined>(undefined)
+  const [selectedTask, setSelectedTask] = useState<ITask | undefined>(
+    undefined
+  );
 
   const [tasksFilters, setTasksFilters] = useState<IGetTasksParams>({
     limit: 10,
@@ -80,8 +84,8 @@ export default function TasksDashboard() {
   };
 
   useEffect(() => {
-    handleGetTasks()
-  }, [tasksFilters])
+    handleGetTasks();
+  }, [tasksFilters]);
 
   const getNext = async () => {
     setTasksFilters((prev) => ({
@@ -97,7 +101,7 @@ export default function TasksDashboard() {
     }));
   };
 
-   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTasksFilters((prev) => ({
       ...prev,
       title: e.target.value,
@@ -109,32 +113,37 @@ export default function TasksDashboard() {
 
   const handleCreateTask = (success: boolean) => {
     if (success) {
-      handleGetTasks()
+      handleGetTasks();
     }
 
-    setShowCreateTaskModal(false)
-  }
+    setShowCreateTaskModal(false);
+  };
 
-    const handleEditTask = (success: boolean) => {
+  const handleEditTask = (success: boolean) => {
     if (success) {
-      handleGetTasks()
+      handleGetTasks();
     }
 
-    setUpdateTaskData(undefined)
-  }
+    setUpdateTaskData(undefined);
+  };
 
-
-    const handleDeleteTask = (success: boolean) => {
+  const handleDeleteTask = (success: boolean) => {
     if (success) {
-      handleGetTasks()
+      handleGetTasks();
     }
 
-    setDeleteTaskData(undefined)
-  }
+    setDeleteTaskData(undefined);
+  };
 
   return (
     <main className="min-h-screen bg-gray-50">
       <div>
+        {user?.role !== "Member" && (
+          <Button variant="ghost" onClick={() => router.back()} className="m-5">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Volver
+          </Button>
+        )}
         <h1 className="p-5 text-4xl font-bold">Bienvenido {user?.username}!</h1>
         <h2 className="p-5 text-2xl font-bold">Estas son tus tareas:</h2>
       </div>
@@ -193,10 +202,12 @@ export default function TasksDashboard() {
                         <p className="mt-5">
                           {`Estado: ${TasksStatusTranslation[task.status]}`}
                         </p>
-                        {task.userName && (<p className="mt-5">
-                          {`Responsable: ${task.userName}`}
-                        </p>)}
+                        {task.userName && (
                           <p className="mt-5">
+                            {`Responsable: ${task.userName}`}
+                          </p>
+                        )}
+                        <p className="mt-5">
                           {`Proyecto: ${task.projectName}`}
                         </p>
                       </CardContent>
@@ -233,9 +244,30 @@ export default function TasksDashboard() {
         teamId={user?.teamId!}
         projectId={projectId!}
       />
-      {updateTaskData && (<EditTaskModal isOpen={!!updateTaskData} teamId={user?.teamId!} task={updateTaskData!} handleClose={handleEditTask}/>)}
-      {deleteTaskData && (<DeleteTaskModal isOpen={!!deleteTaskData} task={deleteTaskData} handleClose={handleDeleteTask}/>)}
-      {selectedTask && (<ShowTaskDetails isOpen={!!selectedTask} task={selectedTask} handleClose={() => {setSelectedTask(undefined)}}/>)}
+      {updateTaskData && (
+        <EditTaskModal
+          isOpen={!!updateTaskData}
+          teamId={user?.teamId!}
+          task={updateTaskData!}
+          handleClose={handleEditTask}
+        />
+      )}
+      {deleteTaskData && (
+        <DeleteTaskModal
+          isOpen={!!deleteTaskData}
+          task={deleteTaskData}
+          handleClose={handleDeleteTask}
+        />
+      )}
+      {selectedTask && (
+        <ShowTaskDetails
+          isOpen={!!selectedTask}
+          task={selectedTask}
+          handleClose={() => {
+            setSelectedTask(undefined);
+          }}
+        />
+      )}
     </main>
   );
 }

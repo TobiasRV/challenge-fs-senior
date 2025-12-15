@@ -109,7 +109,6 @@ const mapErrorMessage: MapErrorMessage = {
             )}
 
               <div className="flex end justify-end gap-3 mt-5">
-                <Button variant="ghost" onClick={close}>Cancelar</Button>
                 <Button type="submit">Confirmar</Button>
               </div>
             </div>

@@ -17,5 +17,8 @@ CREATE TABLE projects (
     
 );
 
+CREATE INDEX idx_projects_created_at ON projects(created_at);
+CREATE INDEX idx_projects_name ON projects(name);
+
 -- +goose Down
 DROP TABLE projects;

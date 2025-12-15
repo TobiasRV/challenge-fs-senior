@@ -13,16 +13,14 @@ import { localStorageKeys } from "@/src/utils/consts";
 import { UserRolesEnum } from "@/src/utils/enums";
 import useDebounced from "@/src/utils/hooks/debounce";
 import { getLsItem } from "@/src/utils/localStorage";
-import { PencilLine, TrashIcon } from "lucide-react";
+import { ArrowLeft, PencilLine, TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useShallow } from "zustand/shallow";
 
 export default function UserDashboard() {
-  const { user } = useAuthStore(
-    useShallow((state) => ({
-      user: state.user,
-    })),
-  );
+
+  const router = useRouter();
 
   const { users, getUsers, usersLoading } = useUserStore(
     useShallow((state) => ({
@@ -100,7 +98,15 @@ export default function UserDashboard() {
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="p-5">
-        <h1 className="py-5 text-xl font-bold">Usuarios</h1>
+        <Button
+          variant="ghost"
+          onClick={() => router.back()}
+          className="m-5"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Volver
+        </Button>
+        <h1 className="py-5 px-10 text-2xl font-bold">Usuarios</h1>
 
        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 sm:px-10">
           <Input className="w-full sm:w-1/2" onChange={onSearchChange} placeholder="Busqueda" />

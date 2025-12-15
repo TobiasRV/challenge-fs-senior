@@ -27,6 +27,14 @@ func New() (queries *database.Queries, dbConn *sql.DB) {
 		log.Fatal("Failed to run migrations: ", err)
 	}
 
+	// Run seed data only in dev environment
+	if os.Getenv("ENVIRONMENT") == "dev" {
+		log.Println("Es DEV")
+		if err := runSeed(conn); err != nil {
+			log.Fatal("Failed to run seed: ", err)
+		}
+	}
+
 	queries = database.New(conn)
 
 	return queries, conn
@@ -40,6 +48,21 @@ func runMigrations(db *sql.DB) error {
 	}
 
 	if err := goose.Up(db, "schemas"); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func runSeed(db *sql.DB) error {
+	goose.SetBaseFS(internalsql.EmbedSeed)
+	goose.SetTableName("goose_db_seed_version")
+
+	if err := goose.SetDialect("postgres"); err != nil {
+		return err
+	}
+
+	if err := goose.Up(db, "seed"); err != nil {
 		return err
 	}
 

@@ -12,6 +12,7 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/src/stores/users/users";
 import { validateEmail } from "@/src/utils/validations";
+import { ArrowLeftIcon } from "lucide-react";
 
 type Inputs = {
   username: string;
@@ -74,13 +75,22 @@ export default function SignInPage() {
     }
   }, [error, authStatusCode]);
 
+  const goBack = () => {
+    router.push("/login")
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-8 sm:py-12">
       <main className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-white rounded-lg shadow-md p-6 sm:p-8 lg:p-10">
         <div className="w-full">
+          <div className="flex align-center gap-25">
+            <Button onClick={goBack}>
+            <ArrowLeftIcon />
+          </Button>
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">
             Registro
           </h1>
+          </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
             <div>
               <Label className="text-sm sm:text-base font-medium">Usuario</Label>

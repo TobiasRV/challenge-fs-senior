@@ -16,5 +16,8 @@ CREATE TABLE tasks (
     description TEXT
 );
 
+CREATE INDEX idx_tasks_created_at ON tasks(created_at);
+CREATE INDEX idx_tasks_title ON tasks(title);
+
 -- +goose Down
 DROP TABLE tasks;

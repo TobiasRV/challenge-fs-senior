@@ -17,5 +17,8 @@ CREATE TABLE users (
     team_id UUID
 );
 
+CREATE INDEX idx_users_created_at ON users(created_at);
+CREATE INDEX idx_users_email ON users(email);
+
 -- +goose Down
 DROP TABLE users CASCADE;

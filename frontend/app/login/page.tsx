@@ -80,6 +80,7 @@ export default function LoginPage() {
   };
 
   const redirectToSignIn = () => {
+    clearState();
     router.push("/signin");
   };
 
