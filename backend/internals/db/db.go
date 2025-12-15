@@ -29,7 +29,6 @@ func New() (queries *database.Queries, dbConn *sql.DB) {
 
 	// Run seed data only in dev environment
 	if os.Getenv("ENVIRONMENT") == "dev" {
-		log.Println("Es DEV")
 		if err := runSeed(conn); err != nil {
 			log.Fatal("Failed to run seed: ", err)
 		}
