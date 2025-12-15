@@ -48,7 +48,7 @@ This task management platform consists of a simple but functional web page capab
 ### Database Schema Design
 The database follows a normalized structure with proper foreign key relationships:
 
-[IMAGEN DE LA BASE DE DATOS]
+<img width="1166" height="768" alt="database schema" src="https://github.com/user-attachments/assets/2a27b4f3-765a-43d1-8a7d-3ef4aaaadefb" />
 
 ## Setup Instructions
 
