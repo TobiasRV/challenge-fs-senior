@@ -5,7 +5,7 @@
 Get the entire application running with a single command:
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/TobiasRV/challenge-fs-senior.git
 cd challenge-fs-senior
 cp .env.example .env
 docker-compose up
