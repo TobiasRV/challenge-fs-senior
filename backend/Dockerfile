@@ -9,6 +9,5 @@ RUN go build
 FROM alpine
 WORKDIR /
 COPY --from=builder /backend/cmd/api/api .
-COPY .env .
 EXPOSE 8080
 CMD ["./api"]

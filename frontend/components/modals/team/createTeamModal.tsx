@@ -36,7 +36,7 @@ export default function CreateTeamModal({isOpen, handleClose}: CreateTeamModalPr
 
   const [alertTimeout, setAlertTimeout] = useState<NodeJS.Timeout>();
 
-  const { createTeam, error, statusCode, loading, clearRequestState } = useTeamStore(useShallow((state) => ({
+  const { createTeam, error, statusCode, clearRequestState } = useTeamStore(useShallow((state) => ({
     createTeam: state.createTeam,
     error: state.error,
     statusCode: state.statusCode,
@@ -56,6 +56,7 @@ export default function CreateTeamModal({isOpen, handleClose}: CreateTeamModalPr
   }, [error, statusCode]);
 
   const onSubmit = async (data: Inputs) => {
+    console.log("onSubmit called with data:", data);
     const response = await createTeam(data);
     if (response === HttpStatusCode.Created) {
         close()
@@ -82,10 +83,20 @@ const mapErrorMessage: MapErrorMessage = {
       <Dialog.Root open={isOpen} modal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
         <Dialog.Title className="hidden">Crear nuevo equipo</Dialog.Title>
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md min-w-md rounded-md bg-white p-8 text-gray-900 shadow">
+        <Dialog.Content 
+          className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md min-w-md rounded-md bg-white p-8 text-gray-900 shadow"
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
           <h2 className="text-xl">Ponle nombre a tu equipo!</h2>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={(e) => {
+            console.log("Form submit event triggered");
+            e.preventDefault();
+            e.stopPropagation();
+            handleSubmit(onSubmit, (errors) => {
+              console.log("Form validation errors:", errors);
+            })(e);
+          }}>
             <div className="mt-5">
               <Label>Nombre</Label>
               <Input

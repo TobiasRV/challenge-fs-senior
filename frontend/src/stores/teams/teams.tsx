@@ -16,6 +16,7 @@ interface TeamsStore {
   getTeamByOwner: () => Promise<void>;
   createTeam: (payload: { name: string }) => Promise<number>;
   clearRequestState: () => void;
+  clearState: () => void;
 }
 
 const initialState = {
@@ -78,7 +79,9 @@ export const useTeamStore = create<TeamsStore>((set, get) => ({
   createTeam: async (payload: ICreateTeam): Promise<number> => {
     try {
       set({ loading: true });
+      console.log("ENTRE")
       const response = await createTeamService(payload);
+      console.log({ response });
       if (response?.error) {
         set({
           error: true,
@@ -93,6 +96,8 @@ export const useTeamStore = create<TeamsStore>((set, get) => ({
         loading: false,
         statusCode: response.statusCode,
       });
+
+      setLsItem(localStorageKeys.TEAM_ID, response.id)
 
       return response.statusCode;
     } catch (error) {
@@ -110,5 +115,8 @@ export const useTeamStore = create<TeamsStore>((set, get) => ({
       statusCode: null,
       loading: false,
     });
+  },
+  clearState: (): void => {
+    set(initialState);
   },
 }));

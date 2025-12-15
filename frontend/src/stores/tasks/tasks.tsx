@@ -17,6 +17,7 @@ interface TasksStore {
   updateTask: (body: IUpdateTaskParams) => Promise<number>;
   deleteTask: (id: string) => Promise<number>;
   clearRequestState: () => void;
+  clearState: () => void;
 }
 
 const initialState = {
@@ -172,5 +173,8 @@ export const useTaskStore = create<TasksStore>((set, get) => ({
       statusCode: null,
       loading: false,
     });
+  },
+  clearState: (): void => {
+    set(initialState);
   },
 }));

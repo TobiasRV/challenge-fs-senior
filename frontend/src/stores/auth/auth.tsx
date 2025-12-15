@@ -9,6 +9,10 @@ import { HttpStatusCode } from "axios";
 import { create } from "zustand";
 import { ILogInForm, ISignInForm } from "./auth.interfaces";
 import { IUser } from "../users/users.interface";
+import { useProjectStore } from "../projects/projects";
+import { useTaskStore } from "../tasks/tasks";
+import { useTeamStore } from "../teams/teams";
+import { useUserStore } from "../users/users";
 
 interface AuthStore {
   isLoggedIn: boolean;
@@ -78,11 +82,18 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       await logoutService();
     } catch (error) {
     } finally {
+      // Clear all stores
+      useProjectStore.getState().clearState();
+      useTaskStore.getState().clearState();
+      useTeamStore.getState().clearState();
+      useUserStore.getState().clearState();
+      
       set({
         ...initialState,
       });
       removeLsItem(localStorageKeys.USER);
       removeLsItem(localStorageKeys.IS_LOGGED_IN);
+      removeLsItem(localStorageKeys.TEAM_ID);
     }
   },
   registerAdmin: async (payload: ISignInForm): Promise<number> => {

@@ -49,7 +49,7 @@ services:
     container_name: challenge-backend
     environment:
       SERVER_PORT: ${SERVER_PORT:-8080}
-      DB_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-challenge_db}?sslmode=disable
+      DB_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-challenge_db}?sslmode=disable&binary_parameters=yes
       JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
       ENVIRONMENT: ${ENVIRONMENT:-dev}
     ports:

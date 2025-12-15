@@ -24,6 +24,7 @@ interface UserStore {
   updateUser: (userData: IUpdateUsersParams) => Promise<number>;
   deleteUser: (id: string) => Promise<number>;
   clearRequestState: () => void;
+  clearState: () => void;
 }
 
 const initialState = {
@@ -211,5 +212,8 @@ export const useUserStore = create<UserStore>((set, get) => ({
       statusCode: null,
       loading: false,
     });
+  },
+  clearState: (): void => {
+    set(initialState);
   },
 }));
